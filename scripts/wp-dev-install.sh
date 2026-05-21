@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # wp-dev-install.sh
-# Install the wordpress-dev-skills plugin into Claude Code's skills directory.
+# Install the wordpress-dev-skills plugin into any AI CLI tool's skills directory.
 #
 # Usage:
 #   ./scripts/wp-dev-install.sh
@@ -8,10 +8,15 @@
 #   ./scripts/wp-dev-install.sh --commands-dir /custom/path
 #   ./scripts/wp-dev-install.sh --dry-run
 #
+# Portable: works with Claude Code, Codex CLI, Gemini CLI, GitHub Copilot CLI.
+# Set WP_SKILLS_ROOT to the repo root to override default detection.
+# After install, scripts resolve their own location at runtime — no absolute
+# paths are hardcoded.
+#
 # What this does:
-#   1. Copies the skills/ directory to ~/.claude/skills/wordpress-dev-skills/
-#   2. Symlinks commands/*.md to ~/.claude/commands/
-#   3. Symlinks hooks/wp-session-init.sh to ~/.claude/hooks/
+#   1. Copies the repo to <skills-dir>/wordpress-dev-skills/ (rsync, no git history)
+#   2. Symlinks commands/*.md → <commands-dir>/
+#   3. Symlinks hooks/wp-session-init.sh → <hooks-dir>/
 #   4. Validates the plugin layout
 
 set -euo pipefail

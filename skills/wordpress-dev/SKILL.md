@@ -99,14 +99,14 @@ Use the scaffold script to generate boilerplate:
 
 ```bash
 # Generate a custom post type
-python3 /root/.claude/skills/wordpress-dev/scripts/scaffold.py \
+python3 ./scripts/scaffold.py \
   --type cpt \
   --name "Property" \
   --slug "property" \
   --output /path/to/theme/inc/
 
 # Generate a custom taxonomy
-python3 /root/.claude/skills/wordpress-dev/scripts/scaffold.py \
+python3 ./scripts/scaffold.py \
   --type taxonomy \
   --name "Property Type" \
   --slug "property-type" \

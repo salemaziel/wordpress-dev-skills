@@ -24,27 +24,30 @@ Ask Claude to run visual QA:
 
 ## Pages Tested
 
-| Page | URL |
-|------|-----|
-| Home | https://csrdevelopment.com/ |
-| About | https://csrdevelopment.com/about/ |
-| Portfolio | https://csrdevelopment.com/portfolio/ |
-| Contact | https://csrdevelopment.com/contact/ |
-| Privacy Policy | https://csrdevelopment.com/privacy-policy/ |
-| Terms | https://csrdevelopment.com/terms-of-service/ |
+Configure pages in `screenshot.py` or pass `--url` for a single page.
+Default pages (using `--all` with `--base-url`):
+
+| Page | Relative URL |
+|------|--------------|
+| Home | / |
+| About | /about/ |
+| Services | /services/ |
+| Portfolio | /portfolio/ |
+| Contact | /contact/ |
+| Privacy Policy | /privacy-policy/ |
 
 ## Screenshot Script
 
-Location: `/root/.claude/skills/visual-qa/screenshot.py`
+Location: `./screenshot.py`
 
 ### Single Page
 ```bash
-python3 /root/.claude/skills/visual-qa/screenshot.py --url https://csrdevelopment.com/about/
+python3 ./screenshot.py --url http://localhost:8080/about/
 ```
 
 ### All Pages
 ```bash
-python3 /root/.claude/skills/visual-qa/screenshot.py --all
+python3 ./screenshot.py --all --base-url http://localhost:8080
 ```
 
 ### Output

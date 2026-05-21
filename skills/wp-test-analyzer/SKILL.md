@@ -89,5 +89,5 @@ Invoke this skill when you need to analyze a WordPress theme for E2E testing:
 ## Running the Analyzer
 
 ```bash
-python3 /root/.claude/skills/wp-test-analyzer/analyze.py /path/to/theme
+python3 ./analyze.py /path/to/theme
 ```

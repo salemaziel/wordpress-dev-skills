@@ -15,8 +15,8 @@
 - `CHANGELOG.md` — existed, latest entry was 1.3.0; plugin.json claimed 1.4.0
 - `install.sh` — existed, but referenced wrong repo URL
 - `skills/` — 14 skill directories with SKILL.md and supporting files
-- `commands/` — 3 symlinks (wp-setup.md, wp-audit.md, wp-launch.md)
-- `hooks/` — 1 symlink (wp-session-init.sh)
+- `commands/` — 3 real command files (wp-setup.md, wp-audit.md, wp-launch.md); use symlinks after `wp-dev-install.sh`
+- `hooks/` — 1 real hook script (wp-session-init.sh); symlinked after `wp-dev-install.sh`
 
 ### Files missing
 - `.claude-plugin/plugin.json` (Claude Code primary manifest)
@@ -172,7 +172,7 @@ jq . marketplace-submission/vdw-claude-plugins/wordpress-dev-skills.entry.json
 
 1. **Marketplace repo does not exist yet.** `https://github.com/salemaziel/vdw-claude-plugins` returned 404. The submission package has been generated but cannot be applied until the repo is created.
 
-2. **Command symlinks point to absolute paths.** The `commands/` and `hooks/` directories contain symlinks to `/root/.claude/...`. These are installation-time symlinks created by `install.sh`. This is expected behavior but means the source command files are not present in the repository itself. Consider adding the actual source `.md` files to `commands/` and having `install.sh` symlink from there.
+2. **Portable path strategy.** All scripts use relative paths: same-skill scripts via `./`, cross-skill references via `../skill-name/`, and commands resolve the repo root at runtime via symlink resolution + `WP_SKILLS_ROOT` env var fallback. No absolute paths are hardcoded.
 
 3. **Gemini extension schema.** There is no official published Gemini extension schema at time of writing. `gemini-extension.json` uses a reasonable convention but may need to be updated when an official schema is released.
 

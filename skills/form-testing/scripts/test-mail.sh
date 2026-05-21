@@ -5,7 +5,7 @@
 set -e
 
 CONTAINER="${1:-wordpress-local-wordpress-1}"
-TO_EMAIL="${2:-admin@csrdevelopment.com}"
+TO_EMAIL="${2:-admin@example.com}"
 
 echo ""
 echo -e "\033[0;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"

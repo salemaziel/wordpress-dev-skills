@@ -1,12 +1,16 @@
 # WordPress Skills Installation Guide
 
-Quick-start guide to install and use the WordPress development skills with Claude Code.
+Quick-start guide to install and use the WordPress development skills with any AI CLI tool.
+
+> **Multi-tool compatible**: Works with Claude Code, GitHub Copilot CLI, Codex CLI, Gemini CLI,
+> and any tool that reads skills/plugins from a directory. No absolute paths are hardcoded —
+> scripts resolve their own location at runtime.
 
 ---
 
 ## Overview
 
-The WordPress Skills package provides Claude Code with comprehensive WordPress development capabilities:
+The WordPress Skills package provides AI coding assistants with comprehensive WordPress development capabilities:
 
 - **18 specialized skills** for all aspects of WordPress development
 - **3 slash commands** for common workflows (`/wp-setup`, `/wp-audit`, `/wp-launch`)
@@ -18,16 +22,39 @@ The WordPress Skills package provides Claude Code with comprehensive WordPress d
 
 ## Quick Install
 
-### Option 1: Clone from GitHub
+### Option 1: Use the install script (recommended)
+
+```bash
+# Clone the repo anywhere you like
+git clone https://github.com/salemaziel/wordpress-dev-skills.git
+cd wordpress-dev-skills
+
+# Install for Claude Code (default: ~/.claude/)
+./scripts/wp-dev-install.sh
+
+# Install to a custom path (for Codex CLI, Gemini CLI, etc.)
+./scripts/wp-dev-install.sh \
+  --skills-dir ~/.codex/skills \
+  --commands-dir ~/.codex/commands \
+  --hooks-dir ~/.codex/hooks
+```
+
+The install script:
+1. Copies the repo to `<skills-dir>/wordpress-dev-skills/` via rsync
+2. Symlinks `commands/*.md` to `<commands-dir>/` — the symlinks resolve back to the repo,
+   so commands always use relative paths to find their scripts
+3. Symlinks `hooks/wp-session-init.sh` to `<hooks-dir>/`
+
+### Option 2: Clone from GitHub
 
 ```bash
 # Clone the WordPress skills repository
-cd /root/.claude/skills
-git clone https://github.com/CrazySwami/wordpress-dev-skills.git
+cd $HOME/.claude/skills
+git clone https://github.com/salemaziel/wordpress-dev-skills.git
 
 # Or clone individual skills
-git clone https://github.com/CrazySwami/wordpress-dev-skills/wp-orchestrator
-git clone https://github.com/CrazySwami/wordpress-dev-skills/wp-docker
+git clone https://github.com/salemaziel/wordpress-dev-skills/wp-orchestrator
+git clone https://github.com/salemaziel/wordpress-dev-skills/wp-docker
 # ... etc
 ```
 
@@ -339,13 +366,36 @@ After setup, your project should look like:
 
 ---
 
+## Environment Variables
+
+All scripts respect these environment variables — set them once in your shell profile (`.bashrc`, `.zshrc`, etc.) to avoid any path configuration:
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `WP_SKILLS_ROOT` | Path to the cloned `wordpress-dev-skills` repo | Auto-resolved from the symlink |
+| `WORDPRESS_CONTAINER` | Docker container name for local WordPress | `wordpress-1` |
+| `WORDPRESS_URL` | Local WordPress site URL | `http://localhost:8080` |
+| `WORDPRESS_PROD_URL` | Production site URL | `https://example.com` |
+| `PEXELS_API_KEY` | Pexels API key for stock photos | (none) |
+| `UNSPLASH_ACCESS_KEY` | Unsplash API key for stock photos | (none) |
+
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+export WP_SKILLS_ROOT="$HOME/repos/wordpress-dev-skills"
+export WORDPRESS_CONTAINER="my-project-wordpress-1"
+export WORDPRESS_URL="http://localhost:8080"
+```
+
+---
+
 ## Common Issues
 
 ### "Permission denied" on scripts
 
 ```bash
-chmod +x ~/.claude/skills/*/scripts/*.sh
-chmod +x ~/.claude/skills/*/scripts/*.py
+# Fix permissions for all skill scripts
+find "$WP_SKILLS_ROOT/skills" -name "*.sh" -exec chmod +x {} \;
+find "$WP_SKILLS_ROOT/skills" -name "*.py" -exec chmod +x {} \;
 ```
 
 ### Playwright not installed
@@ -410,7 +460,7 @@ Replace skill folders with updated versions from the repository.
 
 ## Support
 
-- **GitHub Issues**: https://github.com/CrazySwami/wordpress-dev-skills/issues
+- **GitHub Issues**: https://github.com/salemaziel/wordpress-dev-skills/issues
 - **Documentation**: See individual skill SKILL.md files
 - **Workflow Guide**: See WORKFLOW.md in wp-orchestrator
 

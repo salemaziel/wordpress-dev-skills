@@ -25,13 +25,13 @@ Complete end-to-end workflow for WordPress theme development, from initial brand
 
 ```bash
 # Create project directory
-mkdir -p /root/repos/client-project
-cd /root/repos/client-project
+mkdir -p ~/repos/client-project
+cd ~/repos/client-project
 
 # Copy Docker templates from wp-docker skill
-cp /root/.claude/skills/wp-docker/templates/docker-compose.yml .
-cp /root/.claude/skills/wp-docker/templates/uploads.ini .
-cp /root/.claude/skills/wp-docker/templates/.env.example .env
+cp ../wp-docker/templates/docker-compose.yml .
+cp ../wp-docker/templates/uploads.ini .
+cp ../wp-docker/templates/.env.example .env
 
 # Edit .env with project details
 nano .env
@@ -115,7 +115,7 @@ Before writing any code, gather this information:
 
 ```bash
 # Use brand-guide skill to extract colors/fonts
-python3 /root/.claude/skills/brand-guide/extract-brand.py \
+python3 ../brand-guide/extract-brand.py \
   --theme-path /path/to/theme \
   --output /path/to/brand-guide.md
 ```
@@ -338,17 +338,17 @@ docker exec wordpress wp post meta update <ID> _yoast_wpseo_title "About Us | Mi
 
 ```bash
 # Run full SEO audit
-python3 /root/.claude/skills/seo-optimizer/audit.py \
-  --base-url https://local2.hustletogether.com
+python3 ../seo-optimizer/audit.py \
+  --base-url http://localhost:8080
 
 # JSON output for processing
-python3 /root/.claude/skills/seo-optimizer/audit.py \
-  --base-url https://local2.hustletogether.com \
+python3 ../seo-optimizer/audit.py \
+  --base-url http://localhost:8080 \
   --json
 
 # Single page audit
-python3 /root/.claude/skills/seo-optimizer/audit.py \
-  --base-url https://local2.hustletogether.com \
+python3 ../seo-optimizer/audit.py \
+  --base-url http://localhost:8080 \
   --page about
 ```
 
@@ -370,15 +370,15 @@ python3 /root/.claude/skills/seo-optimizer/audit.py \
 
 ```bash
 # All pages, all viewports (10 sizes)
-python3 /root/.claude/skills/visual-qa/screenshot.py \
+python3 ../visual-qa/screenshot.py \
   --all \
-  --base-url https://local2.hustletogether.com \
-  --output /root/screenshots
+  --base-url http://localhost:8080 \
+  --output ./screenshots
 
 # Single page
-python3 /root/.claude/skills/visual-qa/screenshot.py \
-  --url https://local2.hustletogether.com/about/ \
-  --output /root/screenshots
+python3 ../visual-qa/screenshot.py \
+  --url http://localhost:8080/about/ \
+  --output ./screenshots
 ```
 
 ### Viewport Sizes Tested
@@ -439,7 +439,7 @@ npm install
 ### Create Distribution Zip
 
 ```bash
-cd /root/repos/client-project
+cd ~/repos/client-project
 
 # Remove old zips
 rm -f client-theme-*.zip
@@ -490,7 +490,7 @@ Version: 1.0.0
 ### Initial Repository Setup
 
 ```bash
-cd /root/repos/client-project/client-theme
+cd ~/repos/client-project/client-theme
 
 # Initialize git
 git init
@@ -584,7 +584,7 @@ For sites without Git access, use SFTP sync:
 ```bash
 # Using rsync
 rsync -avz --delete \
-  /root/repos/client-project/client-theme/ \
+  ~/repos/client-project/client-theme/ \
   user@production:/var/www/html/wp-content/themes/client-theme/ \
   --exclude='.git' \
   --exclude='node_modules' \
@@ -635,7 +635,7 @@ Use the white-label skill to prepare admin for clients:
 
 ```bash
 # Apply white-label configuration
-/root/.claude/skills/white-label/scripts/apply-white-label.sh \
+../white-label/scripts/apply-white-label.sh \
   config.json \
   wordpress-container
 ```
@@ -738,8 +738,8 @@ git push origin main          # Push to GitHub
 ### Testing
 
 ```bash
-python3 /root/.claude/skills/visual-qa/screenshot.py --all --base-url URL
-python3 /root/.claude/skills/seo-optimizer/audit.py --base-url URL
+python3 ../visual-qa/screenshot.py --all --base-url URL
+python3 ../seo-optimizer/audit.py --base-url URL
 ./run-tests.sh                # E2E tests
 ```
 

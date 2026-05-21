@@ -103,12 +103,14 @@ Use TodoWrite to create a comprehensive checklist:
 Copy the Docker templates from the wp-docker skill:
 
 ```bash
-SKILLS_DIR="${SKILLS_DIR:-$HOME/.claude/skills/wordpress-dev-skills}"
+# Locate skills root (set WP_SKILLS_ROOT env var to override)
+_f="${BASH_SOURCE[0]:-$0}"; [ -L "$_f" ] && _f="$(readlink -f "$_f")"
+SKILLS_ROOT="${WP_SKILLS_ROOT:-$(cd "$(dirname "$_f")/.." && pwd)}"
 PROJECT_DIR="${PROJECT_DIR:-$(pwd)}"
 
-cp "$SKILLS_DIR/skills/wp-docker/templates/docker-compose.yml" "$PROJECT_DIR/"
-cp "$SKILLS_DIR/skills/wp-docker/templates/uploads.ini" "$PROJECT_DIR/"
-cp "$SKILLS_DIR/skills/wp-docker/templates/.env.example" "$PROJECT_DIR/.env"
+cp "$SKILLS_ROOT/skills/wp-docker/templates/docker-compose.yml" "$PROJECT_DIR/"
+cp "$SKILLS_ROOT/skills/wp-docker/templates/uploads.ini" "$PROJECT_DIR/"
+cp "$SKILLS_ROOT/skills/wp-docker/templates/.env.example" "$PROJECT_DIR/.env"
 ```
 
 Edit `.env` with the project details from Step 1, then:
@@ -121,7 +123,7 @@ docker compose logs -f wordpress   # wait until "ready"
 Run the setup script:
 
 ```bash
-bash "$SKILLS_DIR/skills/wp-docker/templates/wp-setup.sh" \
+bash "$SKILLS_ROOT/skills/wp-docker/templates/wp-setup.sh" \
   "$SITE_URL" "$SITE_TITLE" "$ADMIN_USER" "$ADMIN_PASS" "$ADMIN_EMAIL"
 ```
 
@@ -168,8 +170,10 @@ docker exec "$CONTAINER" wp option update admin_site_enhancements '{
 If the user requested client white-labeling, run the white-label skill:
 
 ```bash
-SKILLS_DIR="${SKILLS_DIR:-$HOME/.claude/skills/wordpress-dev-skills}"
-bash "$SKILLS_DIR/skills/white-label/scripts/apply-white-label.sh" \
+# Locate skills root (set WP_SKILLS_ROOT env var to override)
+_f="${BASH_SOURCE[0]:-$0}"; [ -L "$_f" ] && _f="$(readlink -f "$_f")"
+SKILLS_ROOT="${WP_SKILLS_ROOT:-$(cd "$(dirname "$_f")/.." && pwd)}"
+bash "$SKILLS_ROOT/skills/white-label/scripts/apply-white-label.sh" \
   "" "$CONTAINER"
 ```
 

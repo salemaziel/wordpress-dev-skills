@@ -269,11 +269,11 @@ This skill includes automation scripts that allow Claude to configure ALL white-
 
 ```bash
 # Apply white-label config from JSON file
-/root/.claude/skills/white-label/scripts/apply-white-label.sh config.json container-name
+./scripts/apply-white-label.sh config.json container-name
 
 # Example for CSR Development:
-/root/.claude/skills/white-label/scripts/apply-white-label.sh \
-  /root/csrdevelopment.com/white-label-config.json \
+./scripts/apply-white-label.sh \
+  ~/repos/my-project/white-label-config.json \
   wordpress-local-wordpress-1
 ```
 
@@ -340,7 +340,7 @@ Claude will:
 ### Scripts Location
 
 ```
-/root/.claude/skills/white-label/scripts/
+./scripts/
 ├── apply-white-label.sh           # Main runner script
 ├── configure-white-label.php      # WP-CLI configuration script
 └── white-label-config.example.json # Example config file

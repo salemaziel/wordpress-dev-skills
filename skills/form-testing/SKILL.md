@@ -12,13 +12,13 @@ Comprehensive form testing for WordPress sites - validates form submissions, ema
 
 ```bash
 # Test WP Mail SMTP configuration
-/root/.claude/skills/form-testing/scripts/test-mail.sh wordpress-container
+./scripts/test-mail.sh wordpress-container
 
 # Test contact form submission
-/root/.claude/skills/form-testing/scripts/test-form.sh https://site.com/contact/
+./scripts/test-form.sh https://site.com/contact/
 
 # Full form audit
-/root/.claude/skills/form-testing/scripts/audit-forms.sh wordpress-container
+./scripts/audit-forms.sh wordpress-container
 ```
 
 ---

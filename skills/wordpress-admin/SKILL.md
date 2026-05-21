@@ -20,20 +20,20 @@ Invoke this skill when you need to:
 
 ## Available Sites
 
-### CSR Development (Production)
-- **Site URL:** https://csrdevelopment.com
-- **REST API:** https://csrdevelopment.com/wp-json/wp/v2
-- **FTP Host:** ftp.csrdevelopment.com
-- **FTP User:** alfonso@csrdevelopment.com
-- **Theme Path:** /wp-content/themes/csr-theme
-- **Local Files:** /root/csrdevelopment.com/csrdevelopment.com/public_html
+### Production Site
+- **Site URL:** `$WORDPRESS_PROD_URL` (set via env var, default: https://example.com)
+- **REST API:** `$WORDPRESS_PROD_URL/wp-json/wp/v2`
+- **FTP Host:** your FTP host
+- **FTP User:** your FTP username
+- **Theme Path:** /wp-content/themes/your-theme
+- **Local Files:** ~/repos/my-project/public_html
 
 ### Local WordPress (Docker)
-- **Site URL:** https://local2.hustletogether.com
-- **Container:** wordpress-local-wordpress-1
-- **WP-CLI:** `docker exec wordpress-local-wordpress-1 wp <command> --allow-root`
-- **Admin:** https://local2.hustletogether.com/wp-admin
-- **Credentials:** admin / admin123
+- **Site URL:** `$WORDPRESS_URL` (default: http://localhost:8080)
+- **Container:** `$WORDPRESS_CONTAINER` (default: wordpress-1)
+- **WP-CLI:** `docker exec $WORDPRESS_CONTAINER wp <command> --allow-root`
+- **Admin:** `$WORDPRESS_URL/wp-admin`
+- **Credentials:** admin / admin (default; set via .env)
 
 ## Workflows
 
@@ -41,7 +41,7 @@ Invoke this skill when you need to:
 
 **Local (Docker):**
 ```bash
-docker exec wordpress-local-wordpress-1 wp post create \
+docker exec $WORDPRESS_CONTAINER wp post create \
   --post_type=page \
   --post_title="Privacy Policy" \
   --post_name="privacy-policy" \
@@ -51,7 +51,7 @@ docker exec wordpress-local-wordpress-1 wp post create \
 
 **Production (REST API):**
 ```bash
-curl -X POST "https://csrdevelopment.com/wp-json/wp/v2/pages" \
+curl -X POST "$WORDPRESS_PROD_URL/wp-json/wp/v2/pages" \
   -H "Authorization: Basic BASE64_CREDENTIALS" \
   -H "Content-Type: application/json" \
   -d '{
@@ -65,7 +65,7 @@ curl -X POST "https://csrdevelopment.com/wp-json/wp/v2/pages" \
 ### Set Page Template
 
 ```bash
-docker exec wordpress-local-wordpress-1 wp post meta update <POST_ID> _wp_page_template "page-privacy-policy.php" --allow-root
+docker exec $WORDPRESS_CONTAINER wp post meta update <POST_ID> _wp_page_template "page-privacy-policy.php" --allow-root
 ```
 
 ### Configure SEO (Yoast)
@@ -74,43 +74,43 @@ docker exec wordpress-local-wordpress-1 wp post meta update <POST_ID> _wp_page_t
 
 ```bash
 # Set focus keyphrase
-docker exec wordpress-local-wordpress-1 wp post meta update <POST_ID> _yoast_wpseo_focuskw "privacy policy miami real estate" --allow-root
+docker exec $WORDPRESS_CONTAINER wp post meta update <POST_ID> _yoast_wpseo_focuskw "privacy policy miami real estate" --allow-root
 
 # Set meta description (155 chars max, include focus keyword)
-docker exec wordpress-local-wordpress-1 wp post meta update <POST_ID> _yoast_wpseo_metadesc "Learn how CSR Real Estate protects your privacy and handles personal information on our Miami real estate development website." --allow-root
+docker exec $WORDPRESS_CONTAINER wp post meta update <POST_ID> _yoast_wpseo_metadesc "Learn how CSR Real Estate protects your privacy and handles personal information on our Miami real estate development website." --allow-root
 
 # Set SEO title
-docker exec wordpress-local-wordpress-1 wp post meta update <POST_ID> _yoast_wpseo_title "Privacy Policy | CSR Real Estate" --allow-root
+docker exec $WORDPRESS_CONTAINER wp post meta update <POST_ID> _yoast_wpseo_title "Privacy Policy | CSR Real Estate" --allow-root
 ```
 
 ### Upload Media
 
 **From URL:**
 ```bash
-docker exec wordpress-local-wordpress-1 wp media import "https://images.pexels.com/photos/123456/image.jpg" --title="Privacy Header" --allow-root
+docker exec $WORDPRESS_CONTAINER wp media import "https://images.pexels.com/photos/123456/image.jpg" --title="Privacy Header" --allow-root
 ```
 
 **Set Featured Image:**
 ```bash
-docker exec wordpress-local-wordpress-1 wp post meta update <POST_ID> _thumbnail_id <MEDIA_ID> --allow-root
+docker exec $WORDPRESS_CONTAINER wp post meta update <POST_ID> _thumbnail_id <MEDIA_ID> --allow-root
 ```
 
 ### List Pages/Posts
 
 ```bash
-docker exec wordpress-local-wordpress-1 wp post list --post_type=page --allow-root
-docker exec wordpress-local-wordpress-1 wp post list --post_type=post --allow-root
-docker exec wordpress-local-wordpress-1 wp post list --post_type=property --allow-root
+docker exec $WORDPRESS_CONTAINER wp post list --post_type=page --allow-root
+docker exec $WORDPRESS_CONTAINER wp post list --post_type=post --allow-root
+docker exec $WORDPRESS_CONTAINER wp post list --post_type=property --allow-root
 ```
 
 ### Check/Install Plugins
 
 ```bash
 # List installed plugins
-docker exec wordpress-local-wordpress-1 wp plugin list --allow-root
+docker exec $WORDPRESS_CONTAINER wp plugin list --allow-root
 
 # Install and activate a plugin
-docker exec wordpress-local-wordpress-1 wp plugin install wordpress-seo --activate --allow-root
+docker exec $WORDPRESS_CONTAINER wp plugin install wordpress-seo --activate --allow-root
 ```
 
 ## SEO Best Practices
@@ -168,12 +168,12 @@ add_action('init', 'enable_yoast_rest_api');
 ## Stock Photo Integration
 
 ### Pexels API
-- **API Key:** Store in `/root/.pexels-api-key`
+- **API Key:** Store in the `PEXELS_API_KEY` environment variable
 - **Search:** `curl -H "Authorization: API_KEY" "https://api.pexels.com/v1/search?query=TERM&per_page=5"`
 - **Download:** Use the `src.large` or `src.original` URL from response
 
 ### Unsplash API
-- **API Key:** Store in `/root/.unsplash-api-key`
+- **API Key:** Store in the `UNSPLASH_ACCESS_KEY` environment variable
 - **Search:** `curl "https://api.unsplash.com/search/photos?query=TERM&client_id=API_KEY"`
 
 ## Scripts
@@ -183,7 +183,7 @@ Creates a WordPress page with optional SEO and featured image.
 
 **Usage:**
 ```bash
-python3 /root/.claude/skills/wordpress-admin/scripts/wp-page.py \
+python3 ./scripts/wp-page.py \
   --site local \
   --title "Privacy Policy" \
   --slug "privacy-policy" \
@@ -197,7 +197,7 @@ Sets Yoast SEO fields for existing posts/pages.
 
 **Usage:**
 ```bash
-python3 /root/.claude/skills/wordpress-admin/scripts/wp-seo.py \
+python3 ./scripts/wp-seo.py \
   --site local \
   --post-id 123 \
   --focus-kw "keyword" \
@@ -210,7 +210,7 @@ Downloads stock photo and uploads to WordPress.
 
 **Usage:**
 ```bash
-python3 /root/.claude/skills/wordpress-admin/scripts/wp-media.py \
+python3 ./scripts/wp-media.py \
   --site local \
   --search "miami skyline" \
   --set-featured 123
@@ -220,37 +220,37 @@ python3 /root/.claude/skills/wordpress-admin/scripts/wp-media.py \
 
 ### Start Local WordPress
 ```bash
-cd /root/csrdevelopment.com/wordpress-local && docker-compose up -d
+cd ~/repos/my-project && docker-compose up -d
 ```
 
 ### Stop Local WordPress
 ```bash
-cd /root/csrdevelopment.com/wordpress-local && docker-compose down
+cd ~/repos/my-project && docker-compose down
 ```
 
 ### View Logs
 ```bash
-docker logs wordpress-local-wordpress-1 -f
+docker logs $WORDPRESS_CONTAINER -f
 ```
 
 ### Reset Database
 ```bash
-cd /root/csrdevelopment.com/wordpress-local && docker-compose down -v && docker-compose up -d
+cd ~/repos/my-project && docker-compose down -v && docker-compose up -d
 ```
 
 ## FTP Sync (Production)
 
 ### Sync Theme Files
 ```bash
-/root/csrdevelopment.com/sync-to-remote.sh
+~/repos/my-project/sync-to-remote.sh
 ```
 
 ### Upload Single File
 ```bash
-lftp -u "alfonso@csrdevelopment.com",'@#s;v1#%1M$+' ftp.csrdevelopment.com << 'EOF'
+lftp -u "$FTP_USER","$FTP_PASS" "$FTP_HOST" << 'EOF'
 set ssl:verify-certificate no
-cd /public_html/wp-content/themes/csr-theme
-put /root/csrdevelopment.com/csrdevelopment.com/public_html/wp-content/themes/csr-theme/FILE.php
+cd /public_html/wp-content/themes/your-theme
+put ~/repos/my-project/public_html/wp-content/themes/your-theme/FILE.php
 bye
 EOF
 ```

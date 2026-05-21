@@ -127,7 +127,7 @@ WHERE post_id = {id} AND meta_key = '_yoast_wpseo_metadesc';
 
 ## Unsplash Integration
 
-Uses the Unsplash MCP server configured at `/root/.claude/.mcp.json`:
+Uses the Unsplash MCP server configured at `~/.claude/.mcp.json` (or equivalent for your CLI tool):
 - Search for images matching focus keyword
 - Download high-quality image
 - Upload to WordPress

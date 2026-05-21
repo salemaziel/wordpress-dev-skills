@@ -38,8 +38,10 @@ docker exec "$CONTAINER" wp post list --post_type=page --post_status=publish \
 
 ### SEO — Final Check
 ```bash
-SKILLS_DIR="${SKILLS_DIR:-$HOME/.claude/skills/wordpress-dev-skills}"
-python3 "$SKILLS_DIR/skills/seo-optimizer/audit.py" \
+# Locate skills root (set WP_SKILLS_ROOT env var to override)
+_f="${BASH_SOURCE[0]:-$0}"; [ -L "$_f" ] && _f="$(readlink -f "$_f")"
+SKILLS_ROOT="${WP_SKILLS_ROOT:-$(cd "$(dirname "$_f")/.." && pwd)}"
+python3 "$SKILLS_ROOT/skills/seo-optimizer/audit.py" \
   --base-url "$SITE_URL" 2>/dev/null
 ```
 - [ ] Every published page has a focus keyword
@@ -71,7 +73,7 @@ python3 "$SKILLS_DIR/skills/seo-optimizer/audit.py" \
 - [ ] All contact/inquiry forms tested — submission works
 - [ ] Email delivery verified (check spam folder)
   ```bash
-  bash "$SKILLS_DIR/skills/form-testing/scripts/test-mail.sh" "$CONTAINER" "$CLIENT_EMAIL"
+  bash "$SKILLS_ROOT/skills/form-testing/scripts/test-mail.sh" "$CONTAINER" "$CLIENT_EMAIL"
   ```
 - [ ] Thank-you / confirmation pages configured
 - [ ] Form submissions going to the right email address
@@ -114,7 +116,7 @@ docker exec "$CONTAINER" wp theme list --update=available --format=table --allow
 
 ### Visual QA — Final
 ```bash
-python3 "$SKILLS_DIR/skills/visual-qa/screenshot.py" \
+python3 "$SKILLS_ROOT/skills/visual-qa/screenshot.py" \
   --all \
   --base-url "$SITE_URL" \
   --output /tmp/launch-screenshots-$(date +%Y%m%d)

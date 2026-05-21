@@ -8,9 +8,9 @@ Audits all pages and posts for:
 - Featured image presence and metadata
 
 Usage:
-    python3 audit.py --base-url https://local2.hustletogether.com
-    python3 audit.py --base-url https://local2.hustletogether.com --json
-    python3 audit.py --base-url https://local2.hustletogether.com --page about
+    python3 audit.py --base-url http://localhost:8080
+    python3 audit.py --base-url http://localhost:8080 --json
+    python3 audit.py --base-url http://localhost:8080 --page about
 """
 
 import argparse
@@ -352,7 +352,7 @@ def print_audit_report(audits: List[Dict], output_json: bool = False):
 
 def main():
     parser = argparse.ArgumentParser(description='SEO Audit for WordPress (Yoast/Rank Math)')
-    parser.add_argument('--base-url', type=str, default='https://local2.hustletogether.com',
+    parser.add_argument('--base-url', type=str, default='http://localhost:8080',
                         help='WordPress site base URL')
     parser.add_argument('--page', type=str, help='Audit specific page by slug')
     parser.add_argument('--json', action='store_true', help='Output as JSON')

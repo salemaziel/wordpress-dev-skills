@@ -158,7 +158,7 @@ function sg_bust_asset_cache($src) {
 cd /path/to/wordpress-project
 
 # Run the injector script
-/root/.claude/skills/siteground-cache/add-cache-buster.sh ./wp-content/themes/your-child-theme
+./add-cache-buster.sh ./wp-content/themes/your-child-theme
 ```
 
 ### Method 2: Manual Copy
@@ -281,7 +281,7 @@ Adds `?v=1704567890` to CSS/JS URLs. Since the timestamp changes every second, b
 ## Files in This Skill
 
 ```
-/root/.claude/skills/siteground-cache/
+./
 ├── SKILL.md                 # This documentation
 ├── add-cache-buster.sh      # Auto-inject script
 ├── cache-buster.php         # Standalone PHP snippet

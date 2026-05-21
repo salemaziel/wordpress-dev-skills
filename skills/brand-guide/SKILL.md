@@ -152,7 +152,7 @@ Extracts brand data from theme CSS/PHP files.
 
 **Usage:**
 ```bash
-python3 /root/.claude/skills/brand-guide/scripts/extract-brand.py \
+python3 ./scripts/extract-brand.py \
   --theme-path /path/to/theme \
   --output /path/to/brand-data.yaml
 ```
@@ -162,7 +162,7 @@ Generates brand guide HTML from brand data.
 
 **Usage:**
 ```bash
-python3 /root/.claude/skills/brand-guide/scripts/generate-guide.py \
+python3 ./scripts/generate-guide.py \
   --brand-data /path/to/brand-data.yaml \
   --output /path/to/brand-guide.html
 ```
@@ -172,7 +172,7 @@ Utilities for color manipulation and contrast checking.
 
 **Usage:**
 ```bash
-python3 /root/.claude/skills/brand-guide/scripts/color-utils.py \
+python3 ./scripts/color-utils.py \
   --hex "#07254B" \
   --check-contrast "#EDEAE3"
 ```
@@ -243,10 +243,10 @@ docker exec wordpress-local-wordpress-1 wp post meta update <ID> _yoast_wpseo_me
 
 ## Reference Files
 
-- **CSR Theme:** /root/csrdevelopment.com/csrdevelopment.com/public_html/wp-content/themes/csr-theme/
-- **CSR Style CSS:** /root/csrdevelopment.com/csrdevelopment.com/public_html/wp-content/themes/csr-theme/style.css
-- **CSR Logo:** /root/csrdevelopment.com/csrdevelopment.com/public_html/wp-content/themes/csr-theme/assets/images/csr-logo.svg
+- **CSR Theme:** ~/repos/my-project/wp-content/themes/my-theme/
+- **CSR Style CSS:** ~/repos/my-project/wp-content/themes/my-theme/style.css
+- **CSR Logo:** ~/repos/my-project/wp-content/themes/my-theme/assets/images/csr-logo.svg
 
 ## Examples
 
-See `/root/.claude/skills/brand-guide/examples/csr-brand-guide.md` for a complete CSR Development brand guide example.
+See `./examples/csr-brand-guide.md` for a complete CSR Development brand guide example.

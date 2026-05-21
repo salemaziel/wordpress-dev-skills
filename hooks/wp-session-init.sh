@@ -29,7 +29,7 @@ echo ""
 
 # ─── Locate skills directory ──────────────────────────────────────────────────
 HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILLS_ROOT="$(cd "$HOOK_DIR/.." && pwd)"
+SKILLS_ROOT="${WP_SKILLS_ROOT:-$(cd "$HOOK_DIR/.." && pwd)}"
 
 echo -e "${BLUE}Skills directory:${NC} $SKILLS_ROOT"
 echo ""

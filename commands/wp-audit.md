@@ -46,8 +46,10 @@ Launch the following checks. Use parallel Task agents where available:
 ### SEO Audit
 
 ```bash
-SKILLS_DIR="${SKILLS_DIR:-$HOME/.claude/skills/wordpress-dev-skills}"
-python3 "$SKILLS_DIR/skills/seo-optimizer/audit.py" \
+# Locate skills root (set WP_SKILLS_ROOT env var to override)
+_f="${BASH_SOURCE[0]:-$0}"; [ -L "$_f" ] && _f="$(readlink -f "$_f")"
+SKILLS_ROOT="${WP_SKILLS_ROOT:-$(cd "$(dirname "$_f")/.." && pwd)}"
+python3 "$SKILLS_ROOT/skills/seo-optimizer/audit.py" \
   --base-url "$SITE_URL" \
   --json > /tmp/seo-audit.json 2>/tmp/seo-audit.err
 cat /tmp/seo-audit.json
@@ -63,7 +65,7 @@ Key checks:
 ### Visual QA
 
 ```bash
-python3 "$SKILLS_DIR/skills/visual-qa/screenshot.py" \
+python3 "$SKILLS_ROOT/skills/visual-qa/screenshot.py" \
   --all \
   --base-url "$SITE_URL" \
   --output /tmp/screenshots-$(date +%Y%m%d)
@@ -122,8 +124,10 @@ docker exec "$CONTAINER" wp plugin list --status=inactive --format=table --allow
 If WP Mail SMTP is installed:
 
 ```bash
-SKILLS_DIR="${SKILLS_DIR:-$HOME/.claude/skills/wordpress-dev-skills}"
-bash "$SKILLS_DIR/skills/form-testing/scripts/test-mail.sh" \
+# Locate skills root (set WP_SKILLS_ROOT env var to override)
+_f="${BASH_SOURCE[0]:-$0}"; [ -L "$_f" ] && _f="$(readlink -f "$_f")"
+SKILLS_ROOT="${WP_SKILLS_ROOT:-$(cd "$(dirname "$_f")/.." && pwd)}"
+bash "$SKILLS_ROOT/skills/form-testing/scripts/test-mail.sh" \
   "$CONTAINER" "admin@example.com"
 ```
 
