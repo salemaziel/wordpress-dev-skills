@@ -2,12 +2,13 @@
   "name": "wordpress-dev-skills",
   "version": "1.4.0",
   "description": "Complete WordPress development and automation toolkit for Claude Code - includes Docker/Playground environments, white-labeling with FREE plugins, SEO optimization, visual QA, performance optimization, and slash commands for rapid site setup.",
-  "author": "Hustle Server",
+  "author": "Salem Aziel",
   "license": "MIT",
-  "homepage": "https://github.com/CrazySwami/wordpress-dev-skills",
+  "homepage": "https://github.com/salemaziel/wordpress-dev-skills",
+  "marketplace": "https://github.com/salemaziel/vdw-claude-plugins",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CrazySwami/wordpress-dev-skills.git"
+    "url": "https://github.com/salemaziel/wordpress-dev-skills.git"
   },
   "skills": [
     {
@@ -69,6 +70,16 @@
       "name": "siteground-cache",
       "path": "skills/siteground-cache",
       "description": "SiteGround cache buster for development - bypasses LiteSpeed Cache, SG CachePress, adds no-cache headers, busts browser cache for theme assets"
+    },
+    {
+      "name": "form-testing",
+      "path": "skills/form-testing",
+      "description": "WordPress form email delivery testing and mail server diagnostics"
+    },
+    {
+      "name": "wp-test-analyzer",
+      "path": "skills/wp-test-analyzer",
+      "description": "E2E test generation and analysis for WordPress sites"
     }
   ],
   "dependencies": {
@@ -119,12 +130,12 @@
       {
         "name": "git-clone",
         "description": "Clone directly into skills directory",
-        "command": "git clone https://github.com/hustleserver/wordpress-dev-skills.git ~/.claude/skills/wordpress-dev-skills"
+        "command": "git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.claude/skills/wordpress-dev-skills"
       },
       {
         "name": "install-script",
         "description": "Run install script",
-        "command": "curl -sL https://raw.githubusercontent.com/hustleserver/wordpress-dev-skills/main/install.sh | bash"
+        "command": "curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash"
       },
       {
         "name": "manual",

@@ -17,7 +17,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_URL="https://github.com/hustleserver/wordpress-dev-skills.git"
+REPO_URL="https://github.com/salemaziel/wordpress-dev-skills.git"
 DEFAULT_SKILLS_DIR="$HOME/.claude/skills"
 PLUGIN_NAME="wordpress-dev-skills"
 

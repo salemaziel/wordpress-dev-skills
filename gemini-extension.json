@@ -1,0 +1,29 @@
+{
+  "name": "wordpress-dev-skills",
+  "version": "1.4.0",
+  "description": "Complete WordPress development and automation toolkit - Docker/Playground environments, white-labeling, SEO, visual QA, performance optimization, and slash commands.",
+  "author": "Salem Aziel",
+  "license": "MIT",
+  "repository": "https://github.com/salemaziel/wordpress-dev-skills",
+  "marketplace": "https://github.com/salemaziel/vdw-claude-plugins",
+  "schemaVersion": "1.0",
+  "type": "extension",
+  "categories": ["developer-tools", "wordpress", "automation", "QA"],
+  "capabilities": [
+    "wordpress-development",
+    "docker-environment",
+    "seo-audit",
+    "visual-testing",
+    "performance-optimization",
+    "white-labeling",
+    "gsap-animations",
+    "brand-documentation",
+    "wp-playground",
+    "siteground-cache",
+    "form-testing",
+    "site-launch-checklist"
+  ],
+  "entrypoint": "plugin.json",
+  "skillsPath": "skills/",
+  "commandsPath": "commands/"
+}
