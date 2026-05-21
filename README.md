@@ -55,6 +55,27 @@ A comprehensive WordPress development and automation toolkit for Claude Code, Co
 
 ## Installation
 
+## Installation
+
+### Install Script (all tools)
+
+```bash
+# Claude Code (default)
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash
+
+# Codex CLI
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --tool codex
+
+# Gemini CLI
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --tool gemini
+
+# GitHub Copilot CLI
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --tool copilot
+
+# Custom path
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --skills-dir ~/my-path
+```
+
 ### Method 1: Git Clone (Recommended — Claude Code)
 
 ```bash
@@ -64,38 +85,37 @@ git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.claude/skill
 Or clone and symlink individual skills:
 
 ```bash
-git clone https://github.com/salemaziel/wordpress-dev-skills.git /path/to/wordpress-dev-skills
-ln -s /path/to/wordpress-dev-skills/skills/* ~/.claude/skills/
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/repos/wordpress-dev-skills
+ln -s ~/repos/wordpress-dev-skills/skills/* ~/.claude/skills/
 ```
 
-### Method 2: Install Script
-
-```bash
-curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash
-```
-
-### Method 3: Manual Download
+### Method 2: Manual Download
 
 1. Download the [latest release](https://github.com/salemaziel/wordpress-dev-skills/releases)
-2. Extract to `~/.claude/skills/`
+2. Extract to your tool's skills directory
 3. Skills are automatically available
 
 ### Codex CLI
 
-Load the plugin metadata with:
+```bash
+# Clone or install, then point Codex at the manifest
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.codex/skills/wordpress-dev-skills
+codex --plugin ~/.codex/skills/wordpress-dev-skills/.codex-plugin/plugin.json
+```
+
+### Gemini CLI
 
 ```bash
-# Point Codex at the .codex-plugin manifest
-codex --plugin .codex-plugin/plugin.json
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.gemini/extensions/wordpress-dev-skills
+# gemini-extension.json in the repo root is the extension descriptor
 ```
 
 ### GitHub Copilot CLI
 
-The `.github/plugin/marketplace.json` file acts as a local dev fixture for Copilot CLI-style plugin loading. It references `.claude-plugin/plugin.json` as the authoritative manifest.
-
-### Gemini Extension
-
-`gemini-extension.json` in the repository root contains extension metadata consumable by Gemini-style tool consumers.
+```bash
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.github-copilot/plugins/wordpress-dev-skills
+# .github/plugin/marketplace.json is the local dev fixture referencing .claude-plugin/plugin.json
+```
 
 ---
 
@@ -225,24 +245,29 @@ Once installed, ask Claude Code:
 
 ## Configuration
 
+### Environment variables (recommended — no code changes needed)
+
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+export WP_SKILLS_ROOT="$HOME/repos/wordpress-dev-skills"
+export WORDPRESS_CONTAINER="my-project-wordpress-1"
+export WORDPRESS_URL="http://localhost:8080"
+export WORDPRESS_PROD_URL="https://your-site.com"
+export PEXELS_API_KEY="your-pexels-api-key"         # optional: stock photos
+export UNSPLASH_ACCESS_KEY="your-unsplash-key"       # optional: stock photos
+```
+
 ### For Docker-based WordPress
 
-Update database config in `skills/seo-optimizer/audit.py`:
-
-```python
-DB_CONTAINER = "your-db-container-name"
-DB_USER = "your-db-user"
-DB_PASS = "your-db-password"
-DB_NAME = "your-db-name"
-```
+Database settings are read from environment variables in `skills/seo-optimizer/audit.py`.
+Set `WORDPRESS_CONTAINER` (the Docker container name) and the script will connect via WP-CLI.
 
 ### For Visual QA
 
-Update base URL in `skills/visual-qa/screenshot.py`:
+Screenshot output goes to `./screenshots` by default. Override at runtime:
 
-```python
-DEFAULT_BASE_URL = "https://your-site.com"
-DEFAULT_OUTPUT = "/path/to/screenshots"
+```bash
+python3 skills/visual-qa/screenshot.py --base-url http://localhost:8080 --output ./my-screenshots
 ```
 
 ---
@@ -260,6 +285,7 @@ wordpress-dev-skills/
 ├── README.md
 ├── CHANGELOG.md
 ├── COMPLETENESS_AUDIT.md
+├── LICENSE
 ├── install.sh
 ├── docs/
 │   └── marketplace.md                  # Marketplace publishing guide

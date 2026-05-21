@@ -1,11 +1,17 @@
 #!/bin/bash
 #
-# WordPress Development Skills Installer for Claude Code
+# WordPress Development Skills Installer
+# Works with Claude Code, Codex CLI, Gemini CLI, and GitHub Copilot CLI.
 #
 # Usage:
-#   curl -sL https://raw.githubusercontent.com/hustleserver/wordpress-dev-skills/main/install.sh | bash
-#   ./install.sh [--symlink] [--skills-dir /path/to/skills]
+#   curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash
+#   ./install.sh [--tool claude|codex|gemini|copilot] [--skills-dir /path] [--symlink]
 #
+# Tool defaults (override with --skills-dir):
+#   claude  → ~/.claude/skills/wordpress-dev-skills
+#   codex   → ~/.codex/skills/wordpress-dev-skills
+#   gemini  → ~/.gemini/extensions/wordpress-dev-skills
+#   copilot → ~/.github-copilot/plugins/wordpress-dev-skills
 
 set -e
 
@@ -18,12 +24,12 @@ NC='\033[0m' # No Color
 
 # Configuration
 REPO_URL="https://github.com/salemaziel/wordpress-dev-skills.git"
-DEFAULT_SKILLS_DIR="$HOME/.claude/skills"
 PLUGIN_NAME="wordpress-dev-skills"
 
 # Parse arguments
 USE_SYMLINK=false
-SKILLS_DIR="$DEFAULT_SKILLS_DIR"
+TOOL="claude"
+SKILLS_DIR=""   # set after --tool is parsed
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -31,19 +37,35 @@ while [[ $# -gt 0 ]]; do
             USE_SYMLINK=true
             shift
             ;;
+        --tool)
+            TOOL="$2"
+            shift 2
+            ;;
         --skills-dir)
             SKILLS_DIR="$2"
             shift 2
             ;;
         -h|--help)
-            echo "WordPress Development Skills Installer"
-            echo ""
-            echo "Usage: ./install.sh [options]"
-            echo ""
-            echo "Options:"
-            echo "  --symlink          Symlink individual skills instead of copying"
-            echo "  --skills-dir PATH  Custom skills directory (default: ~/.claude/skills)"
-            echo "  -h, --help         Show this help message"
+            cat <<EOF
+WordPress Development Skills Installer
+Works with Claude Code, Codex CLI, Gemini CLI, and GitHub Copilot CLI.
+
+Usage: ./install.sh [options]
+
+Options:
+  --tool TOOL        Target AI tool: claude (default), codex, gemini, copilot
+  --skills-dir PATH  Override install path (default depends on --tool)
+  --symlink          Symlink individual skills instead of copying
+  -h, --help         Show this help message
+
+Tool defaults:
+  claude  → ~/.claude/skills/wordpress-dev-skills
+  codex   → ~/.codex/skills/wordpress-dev-skills
+  gemini  → ~/.gemini/extensions/wordpress-dev-skills
+  copilot → ~/.github-copilot/plugins/wordpress-dev-skills
+
+Override with WP_SKILLS_ROOT env var or --skills-dir.
+EOF
             exit 0
             ;;
         *)
@@ -53,8 +75,23 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Resolve default install dir based on tool (can be overridden by --skills-dir)
+if [ -z "$SKILLS_DIR" ]; then
+    case "$TOOL" in
+        claude)  SKILLS_DIR="$HOME/.claude/skills" ;;
+        codex)   SKILLS_DIR="$HOME/.codex/skills" ;;
+        gemini)  SKILLS_DIR="$HOME/.gemini/extensions" ;;
+        copilot) SKILLS_DIR="$HOME/.github-copilot/plugins" ;;
+        *)
+            echo -e "${RED}Unknown --tool: $TOOL. Use: claude, codex, gemini, copilot${NC}"
+            exit 1
+            ;;
+    esac
+fi
+
 echo -e "${BLUE}================================${NC}"
 echo -e "${BLUE}WordPress Dev Skills Installer${NC}"
+echo -e "${BLUE}  Tool: $TOOL${NC}"
 echo -e "${BLUE}================================${NC}"
 echo ""
 
@@ -153,8 +190,27 @@ echo "  - visual-qa         : Screenshot testing"
 echo "  - brand-guide       : Brand documentation"
 echo ""
 echo -e "${YELLOW}Next steps:${NC}"
-echo "  1. Open Claude Code"
-echo "  2. Ask: 'Create a custom post type for properties'"
-echo "  3. Or: 'Run an SEO audit on all pages'"
+case "$TOOL" in
+    claude)
+        echo "  1. Open Claude Code"
+        echo "  2. Ask: 'Set up a WordPress Docker environment'"
+        echo "  3. Or run: /wp-setup"
+        ;;
+    codex)
+        echo "  1. Open Codex CLI"
+        echo "  2. Load the plugin: codex --plugin $INSTALL_DIR/.codex-plugin/plugin.json"
+        echo "  3. Ask: 'Set up a WordPress Docker environment'"
+        ;;
+    gemini)
+        echo "  1. Open Gemini CLI"
+        echo "  2. The extension is registered at: $INSTALL_DIR/gemini-extension.json"
+        echo "  3. Ask: 'Set up a WordPress Docker environment'"
+        ;;
+    copilot)
+        echo "  1. Open GitHub Copilot CLI"
+        echo "  2. Plugin metadata is at: $INSTALL_DIR/.github/plugin/marketplace.json"
+        echo "  3. Ask: 'Set up a WordPress Docker environment'"
+        ;;
+esac
 echo ""
 echo -e "${GREEN}Happy coding!${NC}"
