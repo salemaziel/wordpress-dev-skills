@@ -1,0 +1,299 @@
+# Instincts generated from https://github.com/salemaziel/wordpress-dev-skills
+# Generated: 2026-05-21T05:14:04.996Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: wordpress-dev-skills-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat
+
+## Evidence
+
+- 1 commits analyzed
+- Detected conventional commit pattern
+- Examples: feat: add multi-agent manifests, marketplace submission, validation script, and docs
+
+---
+id: wordpress-dev-skills-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Commit Length
+
+## Action
+
+Write moderate-length commit messages (~84 characters)
+
+## Evidence
+
+- Average commit message length: 84 chars
+- Based on 1 commits
+
+---
+id: wordpress-dev-skills-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: wordpress-dev-skills-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: wordpress-dev-skills-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: wordpress-dev-skills-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: wordpress-dev-skills-instinct-file-naming
+trigger: "When creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct File Naming
+
+## Action
+
+Name the file using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.files
+
+---
+id: wordpress-dev-skills-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Function Naming
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions
+
+---
+id: wordpress-dev-skills-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes
+
+---
+id: wordpress-dev-skills-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants
+
+---
+id: wordpress-dev-skills-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in importStyle
+
+---
+id: wordpress-dev-skills-instinct-export-style
+trigger: "When exporting modules or functions"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in exportStyle
+
+---
+id: wordpress-dev-skills-instinct-git-commit-format
+trigger: "When writing a commit message"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Git Commit Format
+
+## Action
+
+Use the conventional commit format with 'feat' prefix for new features
+
+## Evidence
+
+- Seen in commit: 'feat: add multi-agent manifests, marketplace submission, validation script, and docs'
+- Pattern in commits.prefixes
+
+---
+id: wordpress-dev-skills-instinct-git-commit-length
+trigger: "When writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Git Commit Length
+
+## Action
+
+Write descriptive commit messages averaging around 80 characters
+
+## Evidence
+
+- Pattern in commits.averageLength
+
+---
+id: wordpress-dev-skills-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: salemaziel/wordpress-dev-skills
+---
+
+# Wordpress Dev Skills Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from source code
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+
