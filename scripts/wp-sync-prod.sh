@@ -181,7 +181,7 @@ if [ -n "$LOCAL_URL" ] && [ -n "$PROD_URL" ] && [ -n "$CONTAINER" ]; then
 
   if [ "$DRY_RUN" = false ]; then
     find "$SYNC_SOURCE" -type f \( -name "*.php" -o -name "*.js" -o -name "*.css" -o -name "*.json" \) \
-      -exec sed -i "s|${LOCAL_URL}|${PROD_URL}|g" {} +
+      -exec perl -i -pe "s|${LOCAL_URL}|${PROD_URL}|g" {} +
   else
     echo -e "  ${CYAN}[dry-run]${NC} find/sed replace in $SYNC_SOURCE"
   fi

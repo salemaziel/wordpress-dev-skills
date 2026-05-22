@@ -121,8 +121,8 @@ else
 fi
 
 # ─── Step 3: Extract nonce ────────────────────────────────────────────────────
-NONCE_VALUE=$(echo "$PAGE_CONTENT" | grep -oP 'name="[^"]*nonce[^"]*"[^>]*value="\K[^"]+' | head -1 || true)
-NONCE_FIELD=$(echo "$PAGE_CONTENT" | grep -oP 'name="\K[^"]*nonce[^"]*(?=")' | head -1 || true)
+NONCE_VALUE=$(echo "$PAGE_CONTENT" | sed -n 's/.*name="[^"]*nonce[^"]*"[^"]*value="\([^"]*\)".*/\1/p' | head -1 || true)
+NONCE_FIELD=$(echo "$PAGE_CONTENT" | sed -n 's/.*name="\([^"]*nonce[^"]*\)".*/\1/p' | head -1 || true)
 
 if [ -n "$NONCE_VALUE" ]; then
   record "PASS" "Nonce found: field=$NONCE_FIELD value=${NONCE_VALUE:0:8}..."

@@ -435,7 +435,7 @@ Examples:
 </head>
 <body>
 <!-- Brand guide content (Markdown source follows) -->
-<pre style="white-space:pre-wrap">{md.replace('<', '&lt;').replace('>', '&gt;')}</pre>
+<pre style="white-space:pre-wrap">{md.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')}</pre>
 </body>
 </html>"""
 

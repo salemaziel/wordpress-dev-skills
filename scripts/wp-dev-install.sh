@@ -113,7 +113,7 @@ echo ""
 
 # ── 3. Link slash commands ────────────────────────────────────────────────────
 announce "Installing slash commands to $COMMANDS_DIR ..."
-for cmd_file in "$REPO_ROOT/commands/"*.md; do
+for cmd_file in "$PLUGIN_TARGET/commands/"*.md; do
   [ -f "$cmd_file" ] || continue
   cmd_name="$(basename "$cmd_file")"
   target_link="$COMMANDS_DIR/$cmd_name"
@@ -129,7 +129,7 @@ echo ""
 
 # ── 4. Link session-init hook ─────────────────────────────────────────────────
 announce "Installing session hook to $HOOKS_DIR ..."
-HOOK_SRC="$REPO_ROOT/hooks/wp-session-init.sh"
+HOOK_SRC="$PLUGIN_TARGET/hooks/wp-session-init.sh"
 HOOK_DEST="$HOOKS_DIR/wp-session-init.sh"
 if [ -f "$HOOK_SRC" ]; then
   if [ "$DRY_RUN" = true ]; then
