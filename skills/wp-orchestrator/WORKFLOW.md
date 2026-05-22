@@ -29,9 +29,9 @@ mkdir -p ~/repos/client-project
 cd ~/repos/client-project
 
 # Copy Docker templates from wp-docker skill
-cp "$WP_SKILLS_ROOT/skills/wp-docker/templates/docker-compose.yml" .
-cp "$WP_SKILLS_ROOT/skills/wp-docker/templates/uploads.ini" .
-cp "$WP_SKILLS_ROOT/skills/wp-docker/templates/.env.example" .env
+cp "${WP_SKILLS_ROOT:-$HOME/.claude/skills/wordpress-dev-skills}/skills/wp-docker/templates/docker-compose.yml" .
+cp "${WP_SKILLS_ROOT:-$HOME/.claude/skills/wordpress-dev-skills}/skills/wp-docker/templates/uploads.ini" .
+cp "${WP_SKILLS_ROOT:-$HOME/.claude/skills/wordpress-dev-skills}/skills/wp-docker/templates/.env.example" .env
 
 # Edit .env with project details
 nano .env

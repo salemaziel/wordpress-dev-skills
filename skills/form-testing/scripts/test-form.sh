@@ -90,6 +90,12 @@ record() {
   esac
 }
 
+# URL-encode a value safely (no shell injection: value passed via stdin)
+_url_encode() {
+  printf '%s' "$1" | python3 -c "import sys,urllib.parse; print(urllib.parse.quote(sys.stdin.read()))" 2>/dev/null \
+    || printf '%s' "$1" | sed 's/ /+/g; s/@/%40/g; s/:/%3A/g; s/\//%2F/g'
+}
+
 # ─── Step 1: Fetch form page ───────────────────────────────────────────────────
 if [ "$JSON_OUTPUT" = false ]; then
   echo ""
@@ -131,8 +137,8 @@ else
 fi
 
 # ─── Step 4: Detect common form field names ───────────────────────────────────
-FORM_FIELDS_RAW=$(echo "$PAGE_CONTENT" | perl -ne 'while (/<input[^>]*name="([^"]+)"/gi) { print "$1\n" }' || true)
-TEXTAREA_FIELDS=$(echo "$PAGE_CONTENT" | perl -ne 'while (/<textarea[^>]*name="([^"]+)"/gi) { print "$1\n" }' || true)
+FORM_FIELDS_RAW=$(echo "$PAGE_CONTENT" | grep -o '<input[^>]*>' | grep -o 'name="[^"]*"' | sed 's/name="\([^"]*\)"/\1/' || true)
+TEXTAREA_FIELDS=$(echo "$PAGE_CONTENT" | grep -o '<textarea[^>]*>' | grep -o 'name="[^"]*"' | sed 's/name="\([^"]*\)"/\1/' || true)
 ALL_FIELDS=$(echo -e "$FORM_FIELDS_RAW\n$TEXTAREA_FIELDS" | sort -u | grep -v '^$' || true)
 
 # Common field mappings
@@ -145,16 +151,10 @@ PHONE_FIELD=$(echo "$ALL_FIELDS" | grep -iE 'phone|tel|mobile|number' | head -1 
 [ -n "$EMAIL_FIELD" ] && record "PASS" "Email field detected: $EMAIL_FIELD" || record "WARN" "No email field detected — will try generic 'email'"
 
 # ─── Step 5: Build POST data ─────────────────────────────────────────────────
-_urlencode() {
-  WP_FORM_VAL="$1" python3 -c \
-    "import os, urllib.parse; print(urllib.parse.quote(os.environ['WP_FORM_VAL']))" \
-    2>/dev/null || printf '%s' "$1" | sed 's/ /+/g'
-}
-
-POST_DATA="${NAME_FIELD}=$(_urlencode "$TEST_NAME")"
-POST_DATA="${POST_DATA}&${EMAIL_FIELD}=$(_urlencode "$TEST_EMAIL")"
-POST_DATA="${POST_DATA}&${MSG_FIELD}=$(_urlencode "$TEST_MESSAGE")"
-[ -n "$PHONE_FIELD" ] && POST_DATA="${POST_DATA}&${PHONE_FIELD}=$(_urlencode "$TEST_PHONE")"
+POST_DATA="${NAME_FIELD}=$(_url_encode "$TEST_NAME")"
+POST_DATA="${POST_DATA}&${EMAIL_FIELD}=$(_url_encode "$TEST_EMAIL")"
+POST_DATA="${POST_DATA}&${MSG_FIELD}=$(_url_encode "$TEST_MESSAGE")"
+[ -n "$PHONE_FIELD" ] && POST_DATA="${POST_DATA}&${PHONE_FIELD}=$(_url_encode "$TEST_PHONE")"
 
 # Add nonce if found
 if [ -n "$NONCE_FIELD" ] && [ -n "$NONCE_VALUE" ]; then
@@ -162,7 +162,7 @@ if [ -n "$NONCE_FIELD" ] && [ -n "$NONCE_VALUE" ]; then
 fi
 
 # Add common hidden fields that WP forms use
-POST_DATA="${POST_DATA}&_wp_http_referer=$(_urlencode "$FORM_URL")"
+POST_DATA="${POST_DATA}&_wp_http_referer=$(_url_encode "$FORM_URL")"
 
 # ─── Step 6: Submit form ──────────────────────────────────────────────────────
 if [ "$JSON_OUTPUT" = false ]; then
@@ -215,12 +215,13 @@ rm -f "$COOKIE_JAR" "/tmp/wp-form-response-$$.html"
 
 # ─── Output ──────────────────────────────────────────────────────────────────
 if [ "$JSON_OUTPUT" = true ]; then
+  # JSON-escape a string value safely via Python
   _json_str() {
-    printf '%s' "$1" | python3 -c "import sys,json; sys.stdout.write(json.dumps(sys.stdin.read()))" \
-      2>/dev/null || printf '"%s"' "$1"
+    printf '%s' "$1" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null \
+      || printf '"%s"' "$(printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/	/\\t/g')"
   }
   echo "{"
-  echo "  \"url\": $(_json_str "$FORM_URL"),"
+  printf '  "url": %s,\n' "$(_json_str "$FORM_URL")"
   echo "  \"pass\": $PASS,"
   echo "  \"fail\": $FAIL,"
   echo "  \"warn\": $WARN,"

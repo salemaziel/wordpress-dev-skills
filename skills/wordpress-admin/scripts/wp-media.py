@@ -15,6 +15,7 @@ Usage:
 Requirements:
     Docker container with WP-CLI, or local wp-cli
     Optional: PEXELS_API_KEY or UNSPLASH_ACCESS_KEY env vars for stock photo search
+    (no external pip dependencies required)
 """
 
 import argparse
@@ -329,10 +330,6 @@ def cmd_search_and_set(args: argparse.Namespace) -> None:
 # ─── CLI ─────────────────────────────────────────────────────────────────────
 
 def main():
-    # Import urllib.parse here so it's available
-    global urllib
-    import urllib.parse
-
     parser = argparse.ArgumentParser(
         description='WordPress media management — search, download, upload stock photos',
         formatter_class=argparse.RawDescriptionHelpFormatter,
