@@ -13,8 +13,8 @@ Usage:
     python3 wp-media.py search-and-set --query "office team" --post-id 42 --container my-wordpress-1
 
 Requirements:
-    pip install requests
     Docker container with WP-CLI, or local wp-cli
+    (no external pip dependencies required)
 """
 
 import argparse
@@ -23,6 +23,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -328,10 +329,6 @@ def cmd_search_and_set(args: argparse.Namespace) -> None:
 # ─── CLI ─────────────────────────────────────────────────────────────────────
 
 def main():
-    # Import urllib.parse here so it's available
-    global urllib
-    import urllib.parse
-
     parser = argparse.ArgumentParser(
         description='WordPress media management — search, download, upload stock photos',
         formatter_class=argparse.RawDescriptionHelpFormatter,

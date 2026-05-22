@@ -29,9 +29,9 @@ mkdir -p ~/repos/client-project
 cd ~/repos/client-project
 
 # Copy Docker templates from wp-docker skill
-cp ../wp-docker/templates/docker-compose.yml .
-cp ../wp-docker/templates/uploads.ini .
-cp ../wp-docker/templates/.env.example .env
+cp "${WP_SKILLS_ROOT:-$HOME/.claude/skills/wordpress-dev-skills}/skills/wp-docker/templates/docker-compose.yml" .
+cp "${WP_SKILLS_ROOT:-$HOME/.claude/skills/wordpress-dev-skills}/skills/wp-docker/templates/uploads.ini" .
+cp "${WP_SKILLS_ROOT:-$HOME/.claude/skills/wordpress-dev-skills}/skills/wp-docker/templates/.env.example" .env
 
 # Edit .env with project details
 nano .env
@@ -115,7 +115,7 @@ Before writing any code, gather this information:
 
 ```bash
 # Use brand-guide skill to extract colors/fonts
-python3 ../brand-guide/extract-brand.py \
+python3 ../brand-guide/scripts/extract-brand.py \
   --theme-path /path/to/theme \
   --output /path/to/brand-guide.md
 ```

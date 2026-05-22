@@ -21,7 +21,7 @@ SITES = {
     "production": {
         "type": "rest",
         "url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com"),
-        "rest_url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com") + "/wp-json/wp/v2",
+        "rest_url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com").rstrip("/") + "/wp-json/wp/v2",
     },
 }
 

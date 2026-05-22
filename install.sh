@@ -64,7 +64,7 @@ Tool defaults:
   gemini  → ~/.gemini/extensions/wordpress-dev-skills
   copilot → ~/.github-copilot/plugins/wordpress-dev-skills
 
-Override with WP_SKILLS_ROOT env var or --skills-dir.
+Override with WP_SKILLS_ROOT env var (sets skills dir) or --skills-dir.
 EOF
             exit 0
             ;;
@@ -75,7 +75,10 @@ EOF
     esac
 done
 
-# Resolve default install dir based on tool (can be overridden by --skills-dir)
+# Resolve default install dir based on tool (can be overridden by WP_SKILLS_ROOT or --skills-dir)
+if [ -z "$SKILLS_DIR" ] && [ -n "${WP_SKILLS_ROOT:-}" ]; then
+    SKILLS_DIR="$WP_SKILLS_ROOT"
+fi
 if [ -z "$SKILLS_DIR" ]; then
     case "$TOOL" in
         claude)  SKILLS_DIR="$HOME/.claude/skills" ;;

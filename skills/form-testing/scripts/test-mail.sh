@@ -4,7 +4,7 @@
 
 set -e
 
-CONTAINER="${1:-wordpress-local-wordpress-1}"
+CONTAINER="${WORDPRESS_CONTAINER:-${1:-wordpress-1}}"
 TO_EMAIL="${2:-admin@example.com}"
 
 echo ""

@@ -9,7 +9,7 @@
 #   ./scripts/wp-dev-install.sh --dry-run
 #
 # Portable: works with Claude Code, Codex CLI, Gemini CLI, GitHub Copilot CLI.
-# Set WP_SKILLS_ROOT to the repo root to override default detection.
+# Set WP_SKILLS_ROOT to the repo root to override automatic detection.
 # After install, scripts resolve their own location at runtime — no absolute
 # paths are hardcoded.
 #
@@ -23,7 +23,7 @@ set -euo pipefail
 
 # ─── Defaults ─────────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="${WP_SKILLS_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 
 CLAUDE_DIR="${CLAUDE_DIR:-$HOME/.claude}"
 SKILLS_DIR="${SKILLS_DIR:-$CLAUDE_DIR/skills}"
