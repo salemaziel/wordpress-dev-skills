@@ -13,8 +13,8 @@ Usage:
     python3 wp-media.py search-and-set --query "office team" --post-id 42 --container my-wordpress-1
 
 Requirements:
-    pip install requests
     Docker container with WP-CLI, or local wp-cli
+    Optional: PEXELS_API_KEY or UNSPLASH_ACCESS_KEY env vars for stock photo search
 """
 
 import argparse
@@ -23,6 +23,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import urllib.parse
 import urllib.request
 from pathlib import Path
 

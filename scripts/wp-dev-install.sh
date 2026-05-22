@@ -23,7 +23,7 @@ set -euo pipefail
 
 # ─── Defaults ─────────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="${WP_SKILLS_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 
 CLAUDE_DIR="${CLAUDE_DIR:-$HOME/.claude}"
 SKILLS_DIR="${SKILLS_DIR:-$CLAUDE_DIR/skills}"

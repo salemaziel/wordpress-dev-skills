@@ -299,7 +299,7 @@ Examples:
                 print(f"  AA  (large text  ≥3.0): {'✓ PASS' if wcag['AA_large'] else '✗ FAIL'}")
                 print(f"  AAA (normal text ≥7.0): {'✓ PASS' if wcag['AAA_normal'] else '✗ FAIL'}")
                 print(f"  AAA (large text  ≥4.5): {'✓ PASS' if wcag['AAA_large'] else '✗ FAIL'}")
-        elif args.info or True:
+        elif args.info:
             if args.json:
                 print(json.dumps(info, indent=2))
             else:

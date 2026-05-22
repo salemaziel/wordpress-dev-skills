@@ -29,7 +29,7 @@ PLUGIN_NAME="wordpress-dev-skills"
 # Parse arguments
 USE_SYMLINK=false
 TOOL="claude"
-SKILLS_DIR=""   # set after --tool is parsed
+SKILLS_DIR="${WP_SKILLS_ROOT:-}"   # set by WP_SKILLS_ROOT env var, --skills-dir, or --tool default
 
 while [[ $# -gt 0 ]]; do
     case $1 in

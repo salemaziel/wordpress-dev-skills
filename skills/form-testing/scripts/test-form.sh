@@ -131,8 +131,8 @@ else
 fi
 
 # ─── Step 4: Detect common form field names ───────────────────────────────────
-FORM_FIELDS_RAW=$(echo "$PAGE_CONTENT" | grep -oP '<input[^>]*name="\K[^"]+' || true)
-TEXTAREA_FIELDS=$(echo "$PAGE_CONTENT" | grep -oP '<textarea[^>]*name="\K[^"]+' || true)
+FORM_FIELDS_RAW=$(echo "$PAGE_CONTENT" | perl -ne 'while (/<input[^>]*name="([^"]+)"/gi) { print "$1\n" }' || true)
+TEXTAREA_FIELDS=$(echo "$PAGE_CONTENT" | perl -ne 'while (/<textarea[^>]*name="([^"]+)"/gi) { print "$1\n" }' || true)
 ALL_FIELDS=$(echo -e "$FORM_FIELDS_RAW\n$TEXTAREA_FIELDS" | sort -u | grep -v '^$' || true)
 
 # Common field mappings
@@ -145,10 +145,16 @@ PHONE_FIELD=$(echo "$ALL_FIELDS" | grep -iE 'phone|tel|mobile|number' | head -1 
 [ -n "$EMAIL_FIELD" ] && record "PASS" "Email field detected: $EMAIL_FIELD" || record "WARN" "No email field detected — will try generic 'email'"
 
 # ─── Step 5: Build POST data ─────────────────────────────────────────────────
-POST_DATA="${NAME_FIELD}=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$TEST_NAME'))" 2>/dev/null || echo "Test+User")"
-POST_DATA="${POST_DATA}&${EMAIL_FIELD}=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$TEST_EMAIL'))" 2>/dev/null || echo "test%40example.com")"
-POST_DATA="${POST_DATA}&${MSG_FIELD}=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$TEST_MESSAGE'))" 2>/dev/null || echo "Automated+test")"
-[ -n "$PHONE_FIELD" ] && POST_DATA="${POST_DATA}&${PHONE_FIELD}=${TEST_PHONE}"
+_urlencode() {
+  WP_FORM_VAL="$1" python3 -c \
+    "import os, urllib.parse; print(urllib.parse.quote(os.environ['WP_FORM_VAL']))" \
+    2>/dev/null || printf '%s' "$1" | sed 's/ /+/g'
+}
+
+POST_DATA="${NAME_FIELD}=$(_urlencode "$TEST_NAME")"
+POST_DATA="${POST_DATA}&${EMAIL_FIELD}=$(_urlencode "$TEST_EMAIL")"
+POST_DATA="${POST_DATA}&${MSG_FIELD}=$(_urlencode "$TEST_MESSAGE")"
+[ -n "$PHONE_FIELD" ] && POST_DATA="${POST_DATA}&${PHONE_FIELD}=$(_urlencode "$TEST_PHONE")"
 
 # Add nonce if found
 if [ -n "$NONCE_FIELD" ] && [ -n "$NONCE_VALUE" ]; then
@@ -156,7 +162,7 @@ if [ -n "$NONCE_FIELD" ] && [ -n "$NONCE_VALUE" ]; then
 fi
 
 # Add common hidden fields that WP forms use
-POST_DATA="${POST_DATA}&_wp_http_referer=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$FORM_URL'))" 2>/dev/null || echo "")"
+POST_DATA="${POST_DATA}&_wp_http_referer=$(_urlencode "$FORM_URL")"
 
 # ─── Step 6: Submit form ──────────────────────────────────────────────────────
 if [ "$JSON_OUTPUT" = false ]; then
@@ -173,7 +179,7 @@ RESPONSE_HEADERS=$(curl -s -b "$COOKIE_JAR" -c "$COOKIE_JAR" \
   2>/dev/null || echo "")
 
 RESPONSE_BODY=$(cat /tmp/wp-form-response-$$.html 2>/dev/null || echo "")
-HTTP_STATUS=$(echo "$RESPONSE_HEADERS" | grep -oP 'HTTP/\S+ \K\d+' | tail -1 || echo "0")
+HTTP_STATUS=$(echo "$RESPONSE_HEADERS" | awk '/HTTP\// {code=$2} END {print code+0}' || echo "0")
 REDIRECT_URL=$(echo "$RESPONSE_HEADERS" | grep -i '^location:' | awk '{print $2}' | tr -d '\r' || echo "")
 
 # ─── Step 7: Evaluate response ────────────────────────────────────────────────
@@ -209,8 +215,12 @@ rm -f "$COOKIE_JAR" "/tmp/wp-form-response-$$.html"
 
 # ─── Output ──────────────────────────────────────────────────────────────────
 if [ "$JSON_OUTPUT" = true ]; then
+  _json_str() {
+    printf '%s' "$1" | python3 -c "import sys,json; sys.stdout.write(json.dumps(sys.stdin.read()))" \
+      2>/dev/null || printf '"%s"' "$1"
+  }
   echo "{"
-  echo "  \"url\": \"$FORM_URL\","
+  echo "  \"url\": $(_json_str "$FORM_URL"),"
   echo "  \"pass\": $PASS,"
   echo "  \"fail\": $FAIL,"
   echo "  \"warn\": $WARN,"
@@ -220,7 +230,7 @@ if [ "$JSON_OUTPUT" = true ]; then
     status="${result%%|*}"
     msg="${result#*|}"
     [ "$FIRST" = true ] && FIRST=false || echo ","
-    printf '    {"status": "%s", "message": "%s"}' "$status" "$msg"
+    printf '    {"status": "%s", "message": %s}' "$status" "$(_json_str "$msg")"
   done
   echo ""
   echo "  ]"

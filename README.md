@@ -55,8 +55,6 @@ A comprehensive WordPress development and automation toolkit for Claude Code, Co
 
 ## Installation
 
-## Installation
-
 ### Install Script (all tools)
 
 ```bash

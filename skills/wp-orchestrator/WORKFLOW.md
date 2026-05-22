@@ -29,9 +29,9 @@ mkdir -p ~/repos/client-project
 cd ~/repos/client-project
 
 # Copy Docker templates from wp-docker skill
-cp ../wp-docker/templates/docker-compose.yml .
-cp ../wp-docker/templates/uploads.ini .
-cp ../wp-docker/templates/.env.example .env
+cp "$WP_SKILLS_ROOT/skills/wp-docker/templates/docker-compose.yml" .
+cp "$WP_SKILLS_ROOT/skills/wp-docker/templates/uploads.ini" .
+cp "$WP_SKILLS_ROOT/skills/wp-docker/templates/.env.example" .env
 
 # Edit .env with project details
 nano .env
@@ -115,7 +115,7 @@ Before writing any code, gather this information:
 
 ```bash
 # Use brand-guide skill to extract colors/fonts
-python3 ../brand-guide/extract-brand.py \
+python3 "$WP_SKILLS_ROOT/skills/brand-guide/scripts/extract-brand.py" \
   --theme-path /path/to/theme \
   --output /path/to/brand-guide.md
 ```
@@ -338,16 +338,16 @@ docker exec wordpress wp post meta update <ID> _yoast_wpseo_title "About Us | Mi
 
 ```bash
 # Run full SEO audit
-python3 ../seo-optimizer/audit.py \
+python3 "$WP_SKILLS_ROOT/skills/seo-optimizer/audit.py" \
   --base-url http://localhost:8080
 
 # JSON output for processing
-python3 ../seo-optimizer/audit.py \
+python3 "$WP_SKILLS_ROOT/skills/seo-optimizer/audit.py" \
   --base-url http://localhost:8080 \
   --json
 
 # Single page audit
-python3 ../seo-optimizer/audit.py \
+python3 "$WP_SKILLS_ROOT/skills/seo-optimizer/audit.py" \
   --base-url http://localhost:8080 \
   --page about
 ```
@@ -370,13 +370,13 @@ python3 ../seo-optimizer/audit.py \
 
 ```bash
 # All pages, all viewports (10 sizes)
-python3 ../visual-qa/screenshot.py \
+python3 "$WP_SKILLS_ROOT/skills/visual-qa/screenshot.py" \
   --all \
   --base-url http://localhost:8080 \
   --output ./screenshots
 
 # Single page
-python3 ../visual-qa/screenshot.py \
+python3 "$WP_SKILLS_ROOT/skills/visual-qa/screenshot.py" \
   --url http://localhost:8080/about/ \
   --output ./screenshots
 ```
@@ -635,7 +635,7 @@ Use the white-label skill to prepare admin for clients:
 
 ```bash
 # Apply white-label configuration
-../white-label/scripts/apply-white-label.sh \
+"$WP_SKILLS_ROOT/skills/white-label/scripts/apply-white-label.sh" \
   config.json \
   wordpress-container
 ```
@@ -738,8 +738,8 @@ git push origin main          # Push to GitHub
 ### Testing
 
 ```bash
-python3 ../visual-qa/screenshot.py --all --base-url URL
-python3 ../seo-optimizer/audit.py --base-url URL
+python3 "$WP_SKILLS_ROOT/skills/visual-qa/screenshot.py" --all --base-url URL
+python3 "$WP_SKILLS_ROOT/skills/seo-optimizer/audit.py" --base-url URL
 ./run-tests.sh                # E2E tests
 ```
 

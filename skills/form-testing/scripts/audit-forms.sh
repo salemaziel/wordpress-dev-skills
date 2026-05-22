@@ -57,11 +57,11 @@ header(){ echo -e "\n${YELLOW}$*${NC}"; }
 
 wpcli() {
   if [ -n "$CONTAINER" ]; then
-    docker exec "$CONTAINER" wp "$@" --allow-root 2>/dev/null || echo ""
+    docker exec "$CONTAINER" wp "$@" --allow-root 2>/dev/null
   elif command -v wp &>/dev/null; then
-    wp "$@" 2>/dev/null || echo ""
+    wp "$@" 2>/dev/null
   else
-    echo ""
+    return 1
   fi
 }
 
