@@ -5,6 +5,32 @@ All notable changes to the WordPress Development Skills package will be document
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-05-21
+
+### Added
+
+#### Multi-agent packaging and marketplace support
+- `.claude-plugin/plugin.json` — primary Claude Code manifest
+- `.codex-plugin/plugin.json` — Codex CLI manifest
+- `gemini-extension.json` — Gemini-style extension metadata
+- `.agents/plugins/marketplace.json` — local dev fixture (points to canonical marketplace)
+- `.github/plugin/marketplace.json` — GitHub Copilot CLI local dev fixture
+- `docs/marketplace.md` — marketplace publishing guide
+- `COMPLETENESS_AUDIT.md` — full audit of repo state and packaging work
+- `scripts/validate-plugin-layout.sh` — validates all manifests, versions, and required files
+- `marketplace-submission/vdw-claude-plugins/` — marketplace submission package for canonical marketplace
+
+#### Skills added to manifests
+- `form-testing` — WordPress form email delivery testing (was present in repo but not listed)
+- `wp-test-analyzer` — E2E test generation and analysis (was present in repo but not listed)
+
+#### Repository metadata corrections
+- Updated `plugin.json`: author changed to "Salem Aziel", repository URL updated to `https://github.com/salemaziel/wordpress-dev-skills`, marketplace URL added
+- Updated `install.sh`: repository URL corrected to `https://github.com/salemaziel/wordpress-dev-skills`
+- Updated `README.md`: all URLs updated, multi-agent installation docs added, marketplace info added
+
+---
+
 ## [1.3.0] - 2025-12-28
 
 ### Added
@@ -164,8 +190,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned
-- wp-test-analyzer skill for E2E test generation
-- Block theme development guidance
+### Roadmap
+- Block theme / theme.json development guidance
 - ACF field group templates
 - WooCommerce development patterns
+- Migration support workflows
+- Accessibility audit skill

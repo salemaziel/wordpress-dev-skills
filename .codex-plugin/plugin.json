@@ -1,0 +1,35 @@
+{
+  "name": "wordpress-dev-skills",
+  "version": "1.4.0",
+  "description": "Complete WordPress development and automation toolkit - includes Docker/Playground environments, white-labeling, SEO optimization, visual QA, performance optimization, and slash commands for rapid site setup.",
+  "author": "Salem Aziel",
+  "license": "MIT",
+  "repository": "https://github.com/salemaziel/wordpress-dev-skills",
+  "marketplace": "https://github.com/salemaziel/vdw-claude-plugins",
+  "entrypoint": "plugin.json",
+  "skills": [
+    { "name": "wp-orchestrator",  "path": "skills/wp-orchestrator" },
+    { "name": "wordpress-dev",    "path": "skills/wordpress-dev" },
+    { "name": "wordpress-admin",  "path": "skills/wordpress-admin" },
+    { "name": "wp-docker",        "path": "skills/wp-docker" },
+    { "name": "wp-playground",    "path": "skills/wp-playground" },
+    { "name": "white-label",      "path": "skills/white-label" },
+    { "name": "seo-optimizer",    "path": "skills/seo-optimizer" },
+    { "name": "visual-qa",        "path": "skills/visual-qa" },
+    { "name": "brand-guide",      "path": "skills/brand-guide" },
+    { "name": "gsap-animations",  "path": "skills/gsap-animations" },
+    { "name": "wp-performance",   "path": "skills/wp-performance" },
+    { "name": "siteground-cache", "path": "skills/siteground-cache" },
+    { "name": "form-testing",     "path": "skills/form-testing" },
+    { "name": "wp-test-analyzer", "path": "skills/wp-test-analyzer" }
+  ],
+  "commands": [
+    { "name": "wp-setup",  "path": "commands/wp-setup.md" },
+    { "name": "wp-audit",  "path": "commands/wp-audit.md" },
+    { "name": "wp-launch", "path": "commands/wp-launch.md" }
+  ],
+  "install": {
+    "git": "git clone https://github.com/salemaziel/wordpress-dev-skills.git",
+    "script": "curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash"
+  }
+}

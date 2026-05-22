@@ -155,13 +155,13 @@ REQUIRED="admin-site-enhancements litespeed-cache wordpress-seo ewww-image-optim
 #### SEO Audit
 ```bash
 # Run SEO optimizer
-python3 /root/.claude/skills/seo-optimizer/audit.py --base-url https://site.com --json
+python3 ../seo-optimizer/audit.py --base-url https://site.com --json
 ```
 
 #### Visual QA
 ```bash
 # Take screenshots of all pages
-python3 /root/.claude/skills/visual-qa/screenshot.py --all --base-url https://site.com
+python3 ../visual-qa/screenshot.py --all --base-url https://site.com
 ```
 
 #### Performance Check
@@ -669,21 +669,21 @@ docker exec wordpress wp eval "csr_import_demo_content();" --allow-root
 ## Related Skills
 
 All skills are documented at:
-- `/root/.claude/skills/wordpress-dev/` - Development best practices
-- `/root/.claude/skills/wordpress-admin/` - Site management
-- `/root/.claude/skills/seo-optimizer/` - SEO auditing
-- `/root/.claude/skills/visual-qa/` - Visual testing
-- `/root/.claude/skills/brand-guide/` - Brand documentation
-- `/root/.claude/skills/white-label/` - Admin white-labeling (ASE + Branda)
-- `/root/.claude/skills/gsap-animations/` - Animation best practices
-- `/root/.claude/skills/wp-performance/` - Performance optimization
-- `/root/.claude/skills/wp-docker/` - Docker environment
-- `/root/.claude/skills/wp-playground/` - WordPress Playground
+- `../wordpress-dev/` - Development best practices
+- `../wordpress-admin/` - Site management
+- `../seo-optimizer/` - SEO auditing
+- `../visual-qa/` - Visual testing
+- `../brand-guide/` - Brand documentation
+- `../white-label/` - Admin white-labeling (ASE + Branda)
+- `../gsap-animations/` - Animation best practices
+- `../wp-performance/` - Performance optimization
+- `../wp-docker/` - Docker environment
+- `../wp-playground/` - WordPress Playground
 
 Slash commands at:
-- `/root/.claude/commands/wp-setup.md`
-- `/root/.claude/commands/wp-audit.md`
-- `/root/.claude/commands/wp-launch.md`
+- `commands/wp-setup.md` (repo-relative)
+- `commands/wp-audit.md` (repo-relative)
+- `commands/wp-launch.md` (repo-relative)
 
 Plugin bundle at:
-- `/root/.claude/plugins/wordpress-dev-skills/`
+- the `wordpress-dev-skills` repository root

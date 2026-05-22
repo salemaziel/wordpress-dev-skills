@@ -1,0 +1,15 @@
+{
+  "marketplaceRole": "local-development-fixture",
+  "canonicalMarketplace": "https://github.com/salemaziel/vdw-claude-plugins",
+  "note": "This file is a LOCAL/DEV fixture only. It is NOT the canonical marketplace. The canonical marketplace is https://github.com/salemaziel/vdw-claude-plugins",
+  "plugin": {
+    "name": "wordpress-dev-skills",
+    "version": "1.4.0",
+    "source": "https://github.com/salemaziel/wordpress-dev-skills",
+    "manifest": ".claude-plugin/plugin.json",
+    "description": "Complete WordPress development and automation toolkit for Claude Code",
+    "author": "Salem Aziel",
+    "license": "MIT",
+    "tags": ["wordpress", "developer-tools", "claude-code", "automation", "QA", "performance", "SEO"]
+  }
+}

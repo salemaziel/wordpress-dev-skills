@@ -1,0 +1,22 @@
+{
+  "name": "wordpress-dev-skills",
+  "version": "1.4.0",
+  "description": "Complete WordPress development and automation toolkit for Claude Code, Codex CLI, GitHub Copilot CLI, and Gemini-style extension consumers. Includes Docker/Playground environments, white-labeling with FREE plugins, SEO optimization, visual QA, performance optimization, and slash commands for rapid site setup.",
+  "author": "Salem Aziel",
+  "license": "MIT",
+  "source": "https://github.com/salemaziel/wordpress-dev-skills",
+  "manifest": ".claude-plugin/plugin.json",
+  "marketplace": "https://github.com/salemaziel/vdw-claude-plugins",
+  "categories": ["WordPress", "developer-tools", "automation", "QA", "performance", "SEO"],
+  "tags": ["wordpress", "docker", "playground", "seo", "visual-testing", "brand-guide", "white-label", "gsap", "performance", "orchestrator", "claude-code", "siteground", "QA", "launch"],
+  "skills": [
+    "wp-orchestrator", "wordpress-dev", "wordpress-admin", "wp-docker", "wp-playground",
+    "white-label", "seo-optimizer", "visual-qa", "brand-guide", "gsap-animations",
+    "wp-performance", "siteground-cache", "form-testing", "wp-test-analyzer"
+  ],
+  "commands": ["wp-setup", "wp-audit", "wp-launch"],
+  "install": {
+    "git": "git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.claude/skills/wordpress-dev-skills",
+    "script": "curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash"
+  }
+}

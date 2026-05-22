@@ -421,12 +421,12 @@ If client has existing site, extract brand data:
 
 ```bash
 # Use brand-guide skill
-python3 /root/.claude/skills/brand-guide/extract-brand.py \
+python3 "$WP_SKILLS_ROOT/skills/brand-guide/scripts/extract-brand.py" \
   --url https://existing-site.com \
   --output ./brand-analysis.md
 
 # Or from theme files
-python3 /root/.claude/skills/brand-guide/extract-brand.py \
+python3 "$WP_SKILLS_ROOT/skills/brand-guide/scripts/extract-brand.py" \
   --theme-path /path/to/theme \
   --output ./brand-guide.md
 ```

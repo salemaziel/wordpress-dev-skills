@@ -9,18 +9,20 @@ import json
 import argparse
 import sys
 
-# Site configurations
+# Site configurations — override via --site or add your own entry here.
+# Set WORDPRESS_CONTAINER, WORDPRESS_URL env vars for zero-config use.
+import os as _os
 SITES = {
     "local": {
         "type": "docker",
-        "container": "wordpress-local-wordpress-1",
-        "url": "https://local2.hustletogether.com"
+        "container": _os.environ.get("WORDPRESS_CONTAINER", "wordpress-1"),
+        "url": _os.environ.get("WORDPRESS_URL", "http://localhost:8080"),
     },
-    "csr": {
+    "production": {
         "type": "rest",
-        "url": "https://csrdevelopment.com",
-        "rest_url": "https://csrdevelopment.com/wp-json/wp/v2"
-    }
+        "url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com"),
+        "rest_url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com").rstrip("/") + "/wp-json/wp/v2",
+    },
 }
 
 # Yoast meta field keys
@@ -106,7 +108,7 @@ def get_seo(site: str, post_id: str) -> dict:
 
     return {"error": "REST API not implemented yet"}
 
-def generate_meta_desc(title: str, focus_kw: str, brand: str = "CSR Real Estate") -> str:
+def generate_meta_desc(title: str, focus_kw: str, brand: str = "Your Brand") -> str:
     """Generate a meta description template (user should customize)"""
     templates = [
         f"Learn about {title.lower()} at {brand}. {focus_kw.capitalize()} - your trusted Miami real estate development partner.",
@@ -144,7 +146,7 @@ def main():
     gen_parser = subparsers.add_parser('generate', help='Generate meta description template')
     gen_parser.add_argument('--title', required=True, help='Page title')
     gen_parser.add_argument('--focus-kw', required=True, help='Focus keyphrase')
-    gen_parser.add_argument('--brand', default='CSR Real Estate', help='Brand name')
+    gen_parser.add_argument('--brand', default='Your Brand', help='Brand name')
 
     args = parser.parse_args()
 

@@ -8,7 +8,7 @@ Takes full-page screenshots with proper animation handling:
 3. Captures full-page screenshot
 
 Usage:
-    python3 screenshot.py --url https://csrdevelopment.com/about/
+    python3 screenshot.py --url http://localhost:8080/about/
     python3 screenshot.py --all
     python3 screenshot.py --all --output /custom/path
 """
@@ -27,8 +27,8 @@ except ImportError:
     sys.exit(1)
 
 # Configuration
-DEFAULT_BASE_URL = "https://local2.hustletogether.com"
-DEFAULT_OUTPUT = "/root/screenshots"
+DEFAULT_BASE_URL = "http://localhost:8080"
+DEFAULT_OUTPUT = "./screenshots"
 
 # Multiple viewports within each device category for thorough testing
 DEVICES = {
@@ -247,7 +247,7 @@ def main():
         parser.print_help()
         print("\nExamples:")
         print("  python3 screenshot.py --all")
-        print("  python3 screenshot.py --url https://csrdevelopment.com/about/")
+        print("  python3 screenshot.py --url http://localhost:8080/about/")
         print("  python3 screenshot.py --all --output /custom/path")
 
 

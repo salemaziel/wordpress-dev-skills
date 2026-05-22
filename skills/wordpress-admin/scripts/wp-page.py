@@ -9,18 +9,20 @@ import json
 import argparse
 import sys
 
-# Site configurations
+# Site configurations — override via --site or add your own entry here.
+# Set WORDPRESS_CONTAINER, WORDPRESS_URL env vars for zero-config use.
+import os as _os
 SITES = {
     "local": {
         "type": "docker",
-        "container": "wordpress-local-wordpress-1",
-        "url": "https://local2.hustletogether.com"
+        "container": _os.environ.get("WORDPRESS_CONTAINER", "wordpress-1"),
+        "url": _os.environ.get("WORDPRESS_URL", "http://localhost:8080"),
     },
-    "csr": {
+    "production": {
         "type": "rest",
-        "url": "https://csrdevelopment.com",
-        "rest_url": "https://csrdevelopment.com/wp-json/wp/v2"
-    }
+        "url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com"),
+        "rest_url": _os.environ.get("WORDPRESS_PROD_URL", "https://example.com").rstrip("/") + "/wp-json/wp/v2",
+    },
 }
 
 def run_wpcli(container: str, command: str) -> dict:

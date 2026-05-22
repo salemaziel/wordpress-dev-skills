@@ -1,6 +1,11 @@
 # WordPress Development Skills for Claude Code
 
-A comprehensive WordPress development and automation toolkit for Claude Code. Set up complete WordPress sites with a single command, using Docker or Playground environments, with white-labeling (FREE plugins only), SEO, and visual QA.
+A comprehensive WordPress development and automation toolkit for Claude Code, Codex CLI, GitHub Copilot CLI, and Gemini-style extension consumers. Set up complete WordPress sites with a single command — using Docker or Playground environments — with white-labeling (FREE plugins only), SEO, visual QA, performance optimization, and more.
+
+**Plugin source:** <https://github.com/salemaziel/wordpress-dev-skills>  
+**Canonical marketplace:** <https://github.com/salemaziel/vdw-claude-plugins>
+
+---
 
 ## Quick Start
 
@@ -15,61 +20,134 @@ A comprehensive WordPress development and automation toolkit for Claude Code. Se
 /wp-launch
 ```
 
+---
+
 ## Skills Included
 
 | Skill | Description |
 |-------|-------------|
-| **wp-orchestrator** | Master orchestrator - coordinates all skills, slash commands |
+| **wp-orchestrator** | Master orchestrator — coordinates all skills and slash commands |
 | **wp-docker** | Docker Compose WordPress environment with WP-CLI |
-| **wp-playground** | WordPress Playground blueprints for instant testing |
+| **wp-playground** | WordPress Playground blueprints for instant browser-based testing |
 | **white-label** | FREE white-labeling with ASE + Branda + Admin Menu Editor |
 | **wordpress-dev** | Development best practices, coding standards, CPT creation |
 | **wordpress-admin** | Page/post management, WP-CLI, REST API operations |
-| **seo-optimizer** | Yoast/Rank Math audit - focus keywords, meta descriptions |
+| **seo-optimizer** | Yoast/Rank Math audit — focus keywords, meta descriptions |
 | **visual-qa** | Screenshot automation with GSAP animation handling |
-| **brand-guide** | Brand documentation - colors, fonts, imagery, voice/tone |
+| **brand-guide** | Brand documentation — colors, fonts, imagery, voice/tone |
 | **gsap-animations** | GSAP best practices, accessibility, responsive animations |
 | **wp-performance** | Core Web Vitals, image/video optimization, caching |
+| **siteground-cache** | SiteGround cache buster for development workflows |
+| **form-testing** | Form email delivery testing and mail server diagnostics |
+| **wp-test-analyzer** | E2E test generation and analysis for WordPress sites |
+
+---
 
 ## Slash Commands
 
 | Command | Description |
 |---------|-------------|
 | `/wp-setup` | Set up a new WordPress site with Docker, install plugins, configure white-labeling |
-| `/wp-audit` | Comprehensive site audit - SEO, performance, security, visual QA in parallel |
+| `/wp-audit` | Comprehensive site audit — SEO, performance, security, visual QA in parallel |
 | `/wp-launch` | Pre-launch checklist and handoff documentation generation |
+
+---
 
 ## Installation
 
-### Method 1: Git Clone (Recommended)
+### Install Script (all tools)
 
 ```bash
-# Clone into Claude Code skills directory
-git clone https://github.com/hustleserver/wordpress-dev-skills.git ~/.claude/skills/wordpress-dev-skills
+# Claude Code (default)
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash
 
-# Or clone and symlink individual skills
-git clone https://github.com/hustleserver/wordpress-dev-skills.git /path/to/wordpress-dev-skills
-ln -s /path/to/wordpress-dev-skills/skills/* ~/.claude/skills/
+# Codex CLI
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --tool codex
+
+# Gemini CLI
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --tool gemini
+
+# GitHub Copilot CLI
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --tool copilot
+
+# Custom path
+curl -sL https://raw.githubusercontent.com/salemaziel/wordpress-dev-skills/main/install.sh | bash -s -- --skills-dir ~/my-path
 ```
 
-### Method 2: Install Script
+### Method 1: Git Clone (Recommended — Claude Code)
 
 ```bash
-curl -sL https://raw.githubusercontent.com/hustleserver/wordpress-dev-skills/main/install.sh | bash
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.claude/skills/wordpress-dev-skills
 ```
 
-### Method 3: Manual Download
+Or clone and symlink individual skills:
 
-1. Download the [latest release](https://github.com/hustleserver/wordpress-dev-skills/releases)
-2. Extract to `~/.claude/skills/`
+```bash
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/repos/wordpress-dev-skills
+ln -s ~/repos/wordpress-dev-skills/skills/* ~/.claude/skills/
+```
+
+### Method 2: Manual Download
+
+1. Download the [latest release](https://github.com/salemaziel/wordpress-dev-skills/releases)
+2. Extract to your tool's skills directory
 3. Skills are automatically available
+
+### Codex CLI
+
+```bash
+# Clone or install, then point Codex at the manifest
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.codex/skills/wordpress-dev-skills
+codex --plugin ~/.codex/skills/wordpress-dev-skills/.codex-plugin/plugin.json
+```
+
+### Gemini CLI
+
+```bash
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.gemini/extensions/wordpress-dev-skills
+# gemini-extension.json in the repo root is the extension descriptor
+```
+
+### GitHub Copilot CLI
+
+```bash
+git clone https://github.com/salemaziel/wordpress-dev-skills.git ~/.github-copilot/plugins/wordpress-dev-skills
+# .github/plugin/marketplace.json is the local dev fixture referencing .claude-plugin/plugin.json
+```
+
+---
+
+## Validation
+
+Run the included validation script to check that all manifests are consistent and all required files exist:
+
+```bash
+bash scripts/validate-plugin-layout.sh
+```
+
+Requires `jq` for JSON validation (`brew install jq` / `apt install jq`).
+
+---
+
+## Marketplace
+
+This plugin is listed in the canonical marketplace repository:
+
+**<https://github.com/salemaziel/vdw-claude-plugins>**
+
+See [`docs/marketplace.md`](docs/marketplace.md) for publishing workflow, versioning rules, and how to keep manifests in sync.
+
+---
 
 ## Requirements
 
-- **Python 3.9+** - For SEO audit and visual QA scripts
-- **Playwright** - For screenshot automation (`pip install playwright && playwright install`)
-- **curl** - For API requests
-- **Docker** (optional) - For local WordPress database access
+- **Python 3.9+** — For SEO audit and visual QA scripts
+- **Playwright** — For screenshot automation (`pip install playwright && playwright install`)
+- **curl** — For API requests
+- **Docker** (optional) — For local WordPress Docker environment
+- **jq** (optional) — For manifest validation script
+
+---
 
 ## Usage
 
@@ -161,194 +239,99 @@ Once installed, ask Claude Code:
 "Generate a handoff document for the client"
 ```
 
-## Skill Details
-
-### wordpress-dev
-
-Provides comprehensive WordPress development guidance:
-
-- **Coding Standards**: PHP, JS, CSS conventions
-- **Custom Post Types**: Complete CPT registration guide
-- **Security**: Sanitization, escaping, nonces, SQL safety
-- **Performance**: Caching, query optimization, asset loading
-- **Hooks & Filters**: Actions and filters reference
-- **Template Hierarchy**: Theme template structure
-
-Includes code templates for:
-- Custom Post Type registration
-- Custom Taxonomy registration
-- Meta Box with save handling
-- REST API endpoints
-- Plugin skeleton
-
-### seo-optimizer
-
-Audits WordPress pages for SEO completeness:
-
-- Focus keyword presence and usage
-- Meta description quality (length, keyword inclusion)
-- Featured image presence and metadata
-- SEO title optimization
-
-Supports Yoast SEO and Rank Math plugins.
-
-### visual-qa
-
-Automated visual testing with Playwright:
-
-- Full-page scroll to trigger GSAP/ScrollTrigger animations
-- Screenshots at 10 viewports (desktop, tablet, mobile)
-- Parallel analysis with Haiku sub-agents
-
-Default viewports:
-- Desktop: 1920px, 1440px, 1280px
-- Tablet: 768px, 1024px, 744px
-- Mobile: 390px, 393px, 375px, 412px
-
-### wordpress-admin
-
-WordPress site management:
-
-- Create/update pages and posts
-- Configure Yoast SEO settings
-- Upload and manage media
-- WP-CLI command reference
-- REST API endpoints
-
-### white-label
-
-Complete WordPress white-labeling using FREE plugins only:
-
-- **ASE**: Admin cleanup, security (login URL, XML-RPC, author slugs)
-- **Branda**: Login page customization (logo, colors, backgrounds)
-- **Admin Menu Editor**: Menu organization, role-based hiding
-- WP-CLI automation for programmatic configuration
-- Client handoff checklist
-
-### wp-docker
-
-Docker Compose WordPress environment:
-
-- MariaDB 10.11 with health checks
-- WordPress PHP 8.3 Apache
-- WP-CLI container for automation
-- Automated setup script with plugin installation
-- Environment variable configuration
-
-### wp-playground
-
-WordPress Playground blueprints:
-
-- Instant browser-based WordPress testing
-- Pre-configured blueprints with plugins
-- CLI usage with `@wp-playground/cli`
-- URL parameters for quick customization
-- Snapshot export for sharing
-
-### gsap-animations
-
-GSAP animation best practices:
-
-- WordPress enqueue patterns for GSAP/ScrollTrigger
-- Animation patterns (fade, stagger, parallax, text reveal, curtain)
-- Accessibility with `prefers-reduced-motion` support
-- Responsive animations with `gsap.matchMedia()`
-- Visual QA integration with `completeAllAnimations()` helper
-- Reusable animation library with data attributes
-
-### wp-performance
-
-Core Web Vitals and performance optimization:
-
-- LCP, INP, CLS targets and measurement
-- EWWW Image Optimizer configuration
-- FFmpeg video compression (H.264/H.265)
-- LiteSpeed Cache settings optimization
-- CSS/JS defer and minification
-- Database optimization queries
-- Automated speed testing script
-
-### wp-orchestrator
-
-Master WordPress project orchestrator:
-
-- Coordinates all WordPress skills
-- Discovery interview phases (project type, requirements, brand)
-- Site audit workflows (SEO, visual, performance, security)
-- Todo list generation for project phases
-- Parallel agent patterns using Haiku sub-agents
-- Audit report and handoff documentation templates
-- Pre-launch checklist generation
+---
 
 ## Configuration
 
+### Environment variables (recommended — no code changes needed)
+
+```bash
+# Add to ~/.bashrc or ~/.zshrc
+export WP_SKILLS_ROOT="$HOME/repos/wordpress-dev-skills"
+export WORDPRESS_CONTAINER="my-project-wordpress-1"
+export WORDPRESS_URL="http://localhost:8080"
+export WORDPRESS_PROD_URL="https://your-site.com"
+export PEXELS_API_KEY="your-pexels-api-key"         # optional: stock photos
+export UNSPLASH_ACCESS_KEY="your-unsplash-key"       # optional: stock photos
+```
+
 ### For Docker-based WordPress
 
-Update database config in `skills/seo-optimizer/audit.py`:
-
-```python
-DB_CONTAINER = "your-db-container-name"
-DB_USER = "your-db-user"
-DB_PASS = "your-db-password"
-DB_NAME = "your-db-name"
-```
+Database settings are read from environment variables in `skills/seo-optimizer/audit.py`.
+Set `WORDPRESS_CONTAINER` (the Docker container name) and the script will connect via WP-CLI.
 
 ### For Visual QA
 
-Update base URL in `skills/visual-qa/screenshot.py`:
+Screenshot output goes to `./screenshots` by default. Override at runtime:
 
-```python
-DEFAULT_BASE_URL = "https://your-site.com"
-DEFAULT_OUTPUT = "/path/to/screenshots"
+```bash
+python3 skills/visual-qa/screenshot.py --base-url http://localhost:8080 --output ./my-screenshots
 ```
+
+---
 
 ## Directory Structure
 
 ```
 wordpress-dev-skills/
-├── plugin.json              # Plugin manifest
-├── README.md                # This file
-├── CHANGELOG.md             # Version history
-├── install.sh               # Installation script
+├── plugin.json                         # Canonical root manifest
+├── .claude-plugin/plugin.json          # Primary Claude Code manifest
+├── .codex-plugin/plugin.json           # Codex CLI manifest
+├── gemini-extension.json               # Gemini extension metadata
+├── .agents/plugins/marketplace.json    # Local dev fixture (NOT canonical)
+├── .github/plugin/marketplace.json     # Local dev fixture (NOT canonical)
+├── README.md
+├── CHANGELOG.md
+├── COMPLETENESS_AUDIT.md
+├── LICENSE
+├── install.sh
+├── docs/
+│   └── marketplace.md                  # Marketplace publishing guide
+├── scripts/
+│   └── validate-plugin-layout.sh       # Validation script
+├── marketplace-submission/
+│   └── vdw-claude-plugins/             # Submission package for canonical marketplace
 ├── skills/
-│   ├── wp-orchestrator/     # Master orchestrator
-│   ├── wp-docker/           # Docker environment
-│   │   ├── SKILL.md
-│   │   └── templates/       # docker-compose.yml, wp-setup.sh
-│   ├── wp-playground/       # WordPress Playground
-│   │   ├── SKILL.md
-│   │   └── blueprints/      # base.json, woocommerce.json
-│   ├── white-label/         # Admin white-labeling
-│   ├── wordpress-dev/       # Development best practices
-│   ├── wordpress-admin/     # Admin management
-│   ├── seo-optimizer/       # SEO audit
-│   ├── visual-qa/           # Visual testing
-│   ├── brand-guide/         # Brand documentation
-│   ├── gsap-animations/     # GSAP best practices
-│   └── wp-performance/      # Performance optimization
+│   ├── wp-orchestrator/
+│   ├── wp-docker/
+│   ├── wp-playground/
+│   ├── white-label/
+│   ├── wordpress-dev/
+│   ├── wordpress-admin/
+│   ├── seo-optimizer/
+│   ├── visual-qa/
+│   ├── brand-guide/
+│   ├── gsap-animations/
+│   ├── wp-performance/
+│   ├── siteground-cache/
+│   ├── form-testing/
+│   └── wp-test-analyzer/
 ├── commands/
-│   ├── wp-setup.md          # /wp-setup slash command
-│   ├── wp-audit.md          # /wp-audit slash command
-│   └── wp-launch.md         # /wp-launch slash command
+│   ├── wp-setup.md
+│   ├── wp-audit.md
+│   └── wp-launch.md
 └── hooks/
-    └── wp-session-init.sh   # WordPress session initialization
+    └── wp-session-init.sh
 ```
+
+---
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Submit a pull request
+4. Run `bash scripts/validate-plugin-layout.sh` to validate
+5. Submit a pull request
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ## Support
 
-- [Issues](https://github.com/hustleserver/wordpress-dev-skills/issues)
-- [Discussions](https://github.com/hustleserver/wordpress-dev-skills/discussions)
+- [Issues](https://github.com/salemaziel/wordpress-dev-skills/issues)
+- [Discussions](https://github.com/salemaziel/wordpress-dev-skills/discussions)
 
 ## Changelog
 
